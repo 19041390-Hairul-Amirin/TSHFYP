@@ -14,28 +14,17 @@ namespace TSHFYPWebPortal.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly ILogger<OrdersController> _logger;
-
-        public OrdersController(ILogger<OrdersController> logger)
+        public IActionResult About()
         {
-            _logger = logger;
+            return View();
         }
-
         public IActionResult Index()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder");
             return View("Index", dt.Rows);
         }
         
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+     
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }

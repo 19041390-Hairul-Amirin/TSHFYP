@@ -10,5 +10,10 @@ namespace TSHFYPWebPortal.Models
 
         public DateTime OrderDate { get; set; }
         public DateTime DueDate { get; set; }
+
+        public DateTime RevDelDate { get; set; }
+        public string POnum { get; set; }
+        public string PRnum { get; set; }
+        public string SupplierID { get; set; }
     }
 }
