@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TSHFYPWebPortal.Controllers
 {
-    public class HomeController : Controller
+    public class OrdersController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<OrdersController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public OrdersController(ILogger<OrdersController> logger)
         {
             _logger = logger;
         }
@@ -26,7 +26,7 @@ namespace TSHFYPWebPortal.Controllers
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder");
             return View("Index", dt.Rows);
         }
-        //edit commit 1
+        
         public IActionResult Privacy()
         {
             return View();
@@ -35,7 +35,7 @@ namespace TSHFYPWebPortal.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new Orders { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
