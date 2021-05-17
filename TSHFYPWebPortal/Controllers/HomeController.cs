@@ -26,7 +26,7 @@ namespace TSHFYPWebPortal.Controllers
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder");
             return View("Index", dt.Rows);
         }
-
+        //edit commit 1
         public IActionResult Privacy()
         {
             return View();
