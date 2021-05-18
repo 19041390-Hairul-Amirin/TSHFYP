@@ -35,6 +35,7 @@
         <thead>
             <tr>
                 <th>Order Date</th>
+                <th>Revised Del.Date</th>
                 <th>PO Number</th>
                 <th>PR Number</th>
                 <th>Supplier Name</th>
@@ -46,15 +47,16 @@
         <tbody>
             @foreach (DataRow row in Model)
             {
-                <tr>
-                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
-                    <td>@row["PONum"]</td>
-                    <td>@row["PRNum"]</td>
-                    <td>@row["SupplierName"]</td>
-                    <td>@row["Descr"]</td>
-                    <td>@row["QTY"]</td>
+            <tr>
+                <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
+                <td>@String.Format("{0:yyyy-MM-dd }", row["RevisedDate"])</td>
+                <td>@row["PONum"]</td>
+                <td>@row["PRNum"]</td>
+                <td>@row["SupplierName"]</td>
+                <td>@row["Descr"]</td>
+                <td>@row["QTY"]</td>
 
-                </tr>
+            </tr>
             }
         </tbody>
 
