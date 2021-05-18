@@ -21,7 +21,7 @@ public class OrderController : Controller
     {
         DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder");
         return View("Index", dt.Rows);
-        //Test
+        
     }
 
 
