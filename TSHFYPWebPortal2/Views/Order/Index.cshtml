@@ -1,0 +1,65 @@
+﻿<title> FYP </title>
+@section MoreScripts {
+
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#TableA').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}
+
+
+
+
+@model DataRowCollection
+<h2> Purchase Orders </h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div>
+
+
+    <table id="TableA" class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>PO Number</th>
+                <th>PR Number</th>
+                <th>Supplier Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+
+        </thead>
+
+        <tbody>
+            @foreach (DataRow row in Model)
+            {
+                <tr>
+                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
+                    <td>@row["PONum"]</td>
+                    <td>@row["PRNum"]</td>
+                    <td>@row["SupplierName"]</td>
+                    <td>@row["Descr"]</td>
+                    <td>@row["QTY"]</td>
+
+                </tr>
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
