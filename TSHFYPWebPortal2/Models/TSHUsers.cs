@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TSHFYPWebPortal2.Models
 {
-    public class User
+    public class TSHUsers
     {
         [Required(ErrorMessage = "Please enter User ID")]
         [Remote(action: "VerifyUserID", controller: "Account")]

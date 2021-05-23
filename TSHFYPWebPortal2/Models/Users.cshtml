@@ -1,0 +1,48 @@
+﻿@section MoreScripts {
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#jsUsersTable').DataTable({
+                ordering: false,
+                paging: true,
+                searching: false,
+                info: false,
+                lengthChange: false,
+                pageLength: 5
+            });
+        });
+    </script>
+}
+
+@model List<TSHFYPWebPortal2.Models.TSHUsers>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<table id="jsUsersTable" class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Last Login</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TSHFYPWebPortal2.Models.TSHUsers user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@String.Format("{0:yyyy-MM-dd hh:mm:ss}", user.LastLogin)</td>
+            </tr>
+        }
+    </tbody>
+</table>
