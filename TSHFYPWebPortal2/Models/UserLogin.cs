@@ -4,7 +4,7 @@ namespace TSHFYPWebPortal2.Models
 {
     public class UserLogin
     {
-        [Required(ErrorMessage = "Please enter User ID")]
+        [Required(ErrorMessage = "Please enter User")]
         public string UserID { get; set; }
 
         [Required(ErrorMessage = "Please enter Password")]
