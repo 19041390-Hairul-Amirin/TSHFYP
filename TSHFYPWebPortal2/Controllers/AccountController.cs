@@ -64,7 +64,7 @@ namespace TSHFYPWebPortal2.Controllers
                 return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
             }
         }
-        /*
+        
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
         {
@@ -72,7 +72,7 @@ namespace TSHFYPWebPortal2.Controllers
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
             return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
-        }*/
+        }
 
         [AllowAnonymous]
         public IActionResult Forbidden()

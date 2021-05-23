@@ -44,5 +44,12 @@
                 <td>@String.Format("{0:yyyy-MM-dd hh:mm:ss}", user.LastLogin)</td>
             </tr>
         }
+
+        <li>
+            <a class="nav-link" asp-controller="Account" asp-action="Logoff">
+                <i class="fa fa-sign-out"></i>
+                Logout
+            </a>
+        </li>
     </tbody>
 </table>
