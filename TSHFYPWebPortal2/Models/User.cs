@@ -6,7 +6,7 @@ namespace TSHFYPWebPortal2.Models
 {
     public class User
     {
-        [Required(ErrorMessage = "Please enter User ID")]
+        [Required(ErrorMessage = "Please enter User")]
         [Remote(action: "VerifyUserID", controller: "Account")]
         public string UserId { get; set; }
 
