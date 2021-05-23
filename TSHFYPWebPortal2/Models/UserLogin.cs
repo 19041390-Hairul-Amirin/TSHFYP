@@ -10,8 +10,5 @@ namespace TSHFYPWebPortal2.Models
         [Required(ErrorMessage = "Please enter Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        public bool RememberMe { get; set; }
-
     }
 }
