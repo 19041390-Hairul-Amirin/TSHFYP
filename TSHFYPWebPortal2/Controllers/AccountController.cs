@@ -23,7 +23,7 @@ namespace TSHFYPWebPortal2.Controllers
         private const string ROLE_COL = "UserRole";
         private const string NAME_COL = "FullName";
 
-        private const string REDIRECT_CNTR = "Performance";
+        private const string REDIRECT_CNTR = "Order";
         private const string REDIRECT_ACTN = "Index";
 
         private const string LOGIN_VIEW = "UserLogin";
