@@ -64,7 +64,7 @@ namespace TSHFYPWebPortal2.Controllers
                 return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
             }
         }
-        
+
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
         {
@@ -73,7 +73,7 @@ namespace TSHFYPWebPortal2.Controllers
                 return Redirect(returnUrl);
             return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
         }
-
+/*
         [AllowAnonymous]
         public IActionResult Forbidden()
         {
@@ -104,7 +104,7 @@ namespace TSHFYPWebPortal2.Controllers
             }
 
             return RedirectToAction("Users");
-        }
+        }*/
 
         [AllowAnonymous]
         public IActionResult Register()
