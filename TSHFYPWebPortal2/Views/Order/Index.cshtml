@@ -47,17 +47,25 @@
         <tbody>
             @foreach (DataRow row in Model)
             {
-            <tr>
-                <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
-                <td>@String.Format("{0:yyyy-MM-dd }", row["RevisedDate"])</td>
-                <td>@row["PONum"]</td>
-                <td>@row["PRNum"]</td>
-                <td>@row["SupplierName"]</td>
-                <td>@row["Descr"]</td>
-                <td>@row["QTY"]</td>
+                <tr>
+                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
+                    <td>@String.Format("{0:yyyy-MM-dd }", row["RevisedDate"])</td>
+                    <td>@row["PONum"]</td>
+                    <td>@row["PRNum"]</td>
+                    <td>@row["SupplierName"]</td>
+                    <td>@row["Descr"]</td>
+                    <td>@row["QTY"]</td>
 
-            </tr>
+                </tr>
             }
+
+            <li>
+                <a class="nav-link" asp-controller="Order" asp-action="Logoff">
+                    <i class="fa fa-sign-out"></i>
+                    Logout
+                </a>
+            </li>
+
         </tbody>
 
 

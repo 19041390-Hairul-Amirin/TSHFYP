@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 namespace TSHFYPWebPortal2.Controllers
 {
@@ -24,11 +27,20 @@ public class OrderController : Controller
         
     }
 
+        private const string REDIRECT_CNTR = "Order";
+        private const string REDIRECT_ACTN = "Index";
+
+        [Authorize]
+        public IActionResult Logoff(string returnUrl = null)
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+            return RedirectToAction("Index");
+        }
 
 
-    
-  
         // testing 
 
-}
+    }
 }
