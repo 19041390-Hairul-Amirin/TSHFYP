@@ -15,6 +15,33 @@
 
 </head>
 <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+
+        <!-- Hamburger Menu -->
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("TSHUsers"))
+            {
+                <partial name="Login" />
+            }
+            else
+            {
+                <partial name="PurchaseOrder" />
+            }
+        }
+        else
+        {
+            <partial name="Login" /> // problem - it opens this one instead of the two partial name above
+        }
+    </nav>
+
+
     <div class="container">
         @RenderBody()
     </div>
