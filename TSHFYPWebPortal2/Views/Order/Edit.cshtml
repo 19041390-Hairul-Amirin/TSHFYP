@@ -1,0 +1,101 @@
+﻿@section MoreScripts {
+
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/moment/moment.min.js"></script>
+    <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <script src="~/lib/dtpicker/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+
+
+    <script language="javascript">
+        $(document).ready(function () {
+            $('#JSPerformDT')
+                .datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    sideBySide: true
+                });
+        });
+    </script>
+}
+
+@model Order
+
+
+<form asp-controller="Order"
+      asp-action="Edit"
+      method="post">
+
+    <h2> Edit Orders </h2>
+
+    <input asp-for="PId" hidden />
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="PONum">PO Number: </label>
+        <div class="col-sm-5">
+            <input asp-for="PONum" class="form-control" readonly="readonly" />
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="PONum" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="Descr">Description: </label>
+        <div class="col-sm-5">
+            <input asp-for="Descr" class="form-control" readonly="readonly" />
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="Descr" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="OrderDate">Order Date: </label>
+        <div class="col-sm-5">
+            <input asp-for="OrderDate" class="form-control" readonly="readonly" />
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="OrderDate" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="control-label col-sm-2" for="RevisedDate">Delivery Date:</label>
+        <div class="col-sm-5">
+            <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
+                <input type="text" asp-for="RevisedDate" class="form-control" asp-format="{0:yyyy MM dd}" />
+                <div class="input-group-append" data-target="#JSPerformDT" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i> </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="RevisedDate" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-6">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </div>
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-6">
+                <div class="alert alert-@ViewData["MsgType"]">
+                    ViewData["Message"]
+                </div>
+            </div>
+        </div>
+    }
+
+</form>

@@ -34,29 +34,54 @@
     <table id="TableA" class="table">
         <thead>
             <tr>
-                <th>Order Date</th>
-                <th>Revised Del.Date</th>
-                <th>PO Number</th>
-                <th>PR Number</th>
                 <th>Supplier Name</th>
+                <th>Supplier ID</th>
+                <th>PO Number</th>
+                <th>Order Date</th>
+                <th>Payment Term</th>
+                <th>MPS/Job No</th>
+                <th>Part Number</th>
+                <th>PR Number</th>
                 <th>Description</th>
                 <th>Quantity</th>
+                <th>Delivery Date</th>
+                <th>Revised Delivery Date</th>
+                <th>Currency</th>
+                <th>UOM</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+                <th>TSH CM PO Number</th>
+                <th scope="col">Action</th>
 
-        </thead>
+</thead>
 
         <tbody>
             @foreach (DataRow row in Model)
             {
-                <tr>
-                    <td>@String.Format("{0:yyyy-MM-dd HH:mm}", row["OrderDate"])</td>
-                    <td>@String.Format("{0:yyyy-MM-dd }", row["RevisedDate"])</td>
-                    <td>@row["PONum"]</td>
-                    <td>@row["PRNum"]</td>
-                    <td>@row["SupplierName"]</td>
-                    <td>@row["Descr"]</td>
-                    <td>@row["QTY"]</td>
-
-                </tr>
+            <tr>
+                <td>@row["SupplierName"]</td>
+                <td>@row["SupplierID"]</td>
+                <td>@row["PONum"]</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["OrderDate"])</td>
+                <td>@row["Payment"]</td>
+                <td>@row["JobNum"]</td>
+                <td>@row["PartNum"]</td>
+                <td>@row["PRNum"]</td>
+                <td>@row["Descr"]</td>
+                <td>@row["QTY"]</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["DueDate"])</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["RevisedDate"])</td>
+                <td>@row["Currency"]</td>
+                <td>@row["UOM"]</td>
+                <td>@row["UnitPrice"]</td>
+                <td>@row["AMT"]</td>
+                <td>@row["TSHCMPONum"]</td>
+                <td>
+                    <a asp-controller="Order"
+                       asp-action="Edit"
+                      asp-route-id="@row["PId"]" >Edit</a>
+                </td>
+            </tr>
             }
 
         </tbody>
