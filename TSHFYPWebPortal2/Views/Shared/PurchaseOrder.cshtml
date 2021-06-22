@@ -3,33 +3,42 @@
         <li class="nav-item">
             <a class="nav-link" asp-controller="Order" asp-action="About">About</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Order" asp-action="Index">Purchase Order</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Chart" asp-action="Name">DashBoard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Chart" asp-action="Name">HighChart Testing</a>
-        </li>
+        @if (User.IsInRole("manager"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Order" asp-action="Index">Purchase Order</a>
+            </li>
+        }
+        @if (User.IsInRole("manager"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Chart" asp-action="Name">DashBoard</a>
+            </li>
+        }
+        @if (User.IsInRole("manager"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+            </li>
+        }
     </ul>
 
-   <ul class="nav navbar-nav ml-auto">
-      <li>
-         <p class="navbar-text">
-            Welcome @User.Identity.Name<br />
-         </p>
-      </li>
-      <li>
-          <a class="nav-link" asp-controller="Order" asp-action="Logoff">
-              <i class="fas fa-sign-out-alt"></i>
-              Logout
-          </a>
-      </li>
-      <li>
-         &nbsp;&nbsp;&nbsp;
-      </li>
-   </ul>
+    <ul class="nav navbar-nav ml-auto">
+        <li>
+            <p class="navbar-text">
+                Welcome @User.Identity.Name<br />
+            </p>
+        </li>
+        <li>
+            <a class="nav-link" asp-controller="Order" asp-action="Logoff">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+        <li>
+            &nbsp;&nbsp;&nbsp;
+        </li>
+    </ul>
 </div>
 
 
