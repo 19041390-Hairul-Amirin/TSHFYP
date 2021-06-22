@@ -37,7 +37,7 @@ namespace TSHFYPWebPortal2.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(UserLogin user)
+        public IActionResult Login(UserLogin user,TSHUsers name)
         {
             if (!AuthenticateUser(user.UserID, user.Password, out ClaimsPrincipal principal))
             {
@@ -45,7 +45,69 @@ namespace TSHFYPWebPortal2.Controllers
                 ViewData["MsgType"] = "warning";
                 return View(LOGIN_VIEW);
             }
-            else
+
+
+            //Login authentication for each supplier
+            else if (user.UserID.Equals("4000/G012")&& (user.Password.Equals("password3")))
+            {
+                HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   principal);
+
+                // Update the Last Login Timestamp of the User
+                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
+
+                if (TempData["returnUrl"] != null)
+                {
+                    string returnUrl = TempData["returnUrl"].ToString();
+                    if (Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                }
+                
+                return RedirectToAction("GTI", "Order");
+            }
+
+
+            else if (user.UserID.Equals("4000/I003") && (user.Password.Equals("password4")))
+            {
+                HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   principal);
+
+                // Update the Last Login Timestamp of the User
+                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
+
+                if (TempData["returnUrl"] != null)
+                {
+                    string returnUrl = TempData["returnUrl"].ToString();
+                    if (Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                }
+
+                return RedirectToAction("IFME", "Order");
+            }
+
+
+
+            else if (user.UserID.Equals("4000/K001") && (user.Password.Equals("password5")))
+            {
+                HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   principal);
+
+                // Update the Last Login Timestamp of the User
+                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
+
+                if (TempData["returnUrl"] != null)
+                {
+                    string returnUrl = TempData["returnUrl"].ToString();
+                    if (Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                }
+
+                return RedirectToAction("KHS", "Order");
+            }
+            else  
             {
                 HttpContext.SignInAsync(
                    CookieAuthenticationDefaults.AuthenticationScheme,

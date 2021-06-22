@@ -23,6 +23,10 @@ namespace TSHFYPWebPortal2.Models
         public string SupplierName { get; set; }
         public string Descr { get; set; }
         public int Qty { get; set; }
+        public string accepted { get; set; }
+        public string Payment { get; set; }
+        public string PartNum { get; set; }
+        
     }
 
 }

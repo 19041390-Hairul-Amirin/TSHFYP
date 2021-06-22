@@ -22,11 +22,35 @@ public class OrderController : Controller
     
     public IActionResult Index()
     {
-        DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-        return View("Index", dt.Rows);
-        
+
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+            return View("Index", dt.Rows);
+            
+       
+           
+
     }
 
+
+        //Different views for each supplier
+        //They can only view 
+        public IActionResult GTI()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='GTI'");
+            return View("Index", dt.Rows); ;
+        }
+
+        public IActionResult IFME()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='IFME'");
+            return View("Index", dt.Rows); ;
+        }
+
+        public IActionResult KHS()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='KHS'");
+            return View("Index", dt.Rows); ;
+        }
         private const string REDIRECT_CNTR = "Order";
         private const string REDIRECT_ACTN = "Index";
 
@@ -56,6 +80,14 @@ public class OrderController : Controller
             }
 
         }
+
+
+        public ActionResult Cancel()
+        {
+            TempData["Message"] = "Rejected";
+            TempData["MsgType"] = "error";
+            return View("Index");
+        }
         [HttpPost]
         public IActionResult Edit(Order ord)
         {
@@ -65,16 +97,105 @@ public class OrderController : Controller
                 ViewData["MsgType"] = "warning";
                 return View("Edit");
             }
-            else
+
+
+            //Accept function for each supplier 
+
+
+
+
+
+
+            //GTI
+            else if (ord.SupplierName.Equals("GTI"))
             {
                 string edit =
                    @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate,ord.RevisedDate);
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
                 if (res == 1)
                 {
                     TempData["Message"] = "Order Updated";
                     TempData["MsgType"] = "success";
+
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("GTI");
+            }
+
+
+
+
+
+
+
+            //IFME
+            else if (ord.SupplierName.Equals("IFME"))
+            {
+                string edit =
+                   @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Accepted";
+                    TempData["MsgType"] = "success";
+                   
+
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("IFME");
+            }
+
+
+
+
+
+
+
+
+
+            //KHS
+            else if (ord.SupplierName.Equals("KHS"))
+            {
+                string edit =
+                   @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Accepted";
+                    TempData["MsgType"] = "success";
+                    ord.accepted = "Accepted";
+
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("KHS");
+            }
+
+            else 
+            {
+                string edit =
+                  @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Accepted";
+                    TempData["MsgType"] = "success";
+                    ord.accepted = "Accepted";
                 }
                 else
                 {
