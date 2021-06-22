@@ -46,25 +46,6 @@ namespace TSHFYPWebPortal2.Controllers
                 return View(LOGIN_VIEW);
             }
 
-            //Test purchaser(Create for purchaser)
-            else if (user.UserID.Equals("purchaser") && (user.Password.Equals("password1")))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("purchaser", "Order");
-            }
 
 
             //Login authentication for each supplier
