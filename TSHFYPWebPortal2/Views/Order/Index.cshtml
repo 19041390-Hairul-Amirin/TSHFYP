@@ -19,7 +19,16 @@
 
 
 @model DataRowCollection
-<h2> Purchase Orders </h2>
+
+@if (User.IsInRole("Supplier"))
+{
+    <h2 style="text-align:center">@User.Identity.Name 's Purchase Orders </h2>
+}
+else if (User.IsInRole("manager"))
+{
+    <h2 style="text-align:center"> All supplier's Purchase Orders </h2>
+}
+<br />
 
 @if (TempData["Message"] != null)
 {
@@ -28,18 +37,18 @@
     </div>
 }
 
-<div >
+<div>
 
 
     <table id="TableA" class="table">
         <thead>
             <tr>
-                <th>Supplier Name</th>
-                <th>Supplier ID</th>
+
+
                 <th>PO Number</th>
                 <th>Order Date</th>
                 <th>Payment Term</th>
-                <th>MPS/Job No</th>
+
                 <th>Part Number</th>
                 <th>PR Number</th>
                 <th>Description</th>
@@ -51,39 +60,57 @@
                 <th>Unit Price</th>
                 <th>Amount</th>
                 <th>TSH CM PO Number</th>
-                <th scope="col">Action</th>
+                <th>Status</th>
 
-</thead>
+        </thead>
 
         <tbody>
+
+
             @foreach (DataRow row in Model)
             {
-            <tr>
-                <td>@row["SupplierName"]</td>
-                <td>@row["SupplierID"]</td>
-                <td>@row["PONum"]</td>
-                <td>@String.Format("{0:yyyy-MM-dd}", row["OrderDate"])</td>
-                <td>@row["Payment"]</td>
-                <td>@row["JobNum"]</td>
-                <td>@row["PartNum"]</td>
-                <td>@row["PRNum"]</td>
-                <td>@row["Descr"]</td>
-                <td>@row["QTY"]</td>
-                <td>@String.Format("{0:yyyy-MM-dd}", row["DueDate"])</td>
-                <td>@String.Format("{0:yyyy-MM-dd}", row["RevisedDate"])</td>
-                <td>@row["Currency"]</td>
-                <td>@row["UOM"]</td>
-                <td>@row["UnitPrice"]</td>
-                <td>@row["AMT"]</td>
-                <td>@row["TSHCMPONum"]</td>
-                <td>
-                    <a asp-controller="Order"
-                       asp-action="Edit"
-                      asp-route-id="@row["PId"]" >Edit</a>
-                </td>
-            </tr>
-            }
+                <tr>
 
+
+                    <td>@row["PONum"]</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["OrderDate"])</td>
+                    <td>@row["Payment"]</td>
+
+                    <td>@row["PartNum"]</td>
+                    <td>@row["PRNum"]</td>
+                    <td>@row["Descr"]</td>
+                    <td>@row["QTY"]</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["DueDate"])</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["RevisedDate"])</td>
+                    <td>@row["Currency"]</td>
+                    <td>@row["UOM"]</td>
+                    <td>@row["UnitPrice"]</td>
+                    <td>@row["AMT"]</td>
+                    <td>@row["TSHCMPONum"]</td>
+
+
+
+
+
+                    @*To check if order is accepted*@
+                    @if (row["Status"].Equals("Accepted"))
+                    {
+                        <td>@row["Status"]</td>
+                    }
+                    else
+                    {
+                        <td>
+                            @row["Status"]
+                            <a asp-controller="Order"
+                               asp-action="Edit"
+                               asp-route-id="@row["PId"]">Accept</a>
+                        </td>
+
+                    }
+                </tr>
+
+
+            }
         </tbody>
 
 
