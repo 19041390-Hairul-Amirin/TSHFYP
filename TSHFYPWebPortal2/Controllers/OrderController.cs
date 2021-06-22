@@ -21,8 +21,6 @@ namespace TSHFYPWebPortal2.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Contact Us";
-
             return View();
         }
 
