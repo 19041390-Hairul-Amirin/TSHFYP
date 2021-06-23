@@ -144,7 +144,7 @@ public class OrderController : Controller
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
+                   
 
                 }
                 else
@@ -174,7 +174,7 @@ public class OrderController : Controller
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
+                    ord.accepted = "Accepted";
 
                 }
                 else
@@ -195,7 +195,7 @@ public class OrderController : Controller
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
+                    ord.accepted = "Accepted";
                 }
                 else
                 {
