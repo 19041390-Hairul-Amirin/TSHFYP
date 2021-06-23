@@ -122,7 +122,7 @@ public IActionResult Index()
                 {
                     TempData["Message"] = "Order Updated";
                     TempData["MsgType"] = "success";
-
+                    ord.Accepted = "Accepted";
                 }
                 else
                 {
@@ -149,7 +149,7 @@ public IActionResult Index()
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                   
+                    ord.Accepted = "Accepted";
 
                 }
                 else
@@ -179,7 +179,7 @@ public IActionResult Index()
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                    ord.accepted = "Accepted";
+                    ord.Accepted = "Accepted";
 
                 }
                 else
@@ -200,7 +200,7 @@ public IActionResult Index()
                 {
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
-                    ord.accepted = "Accepted";
+                    ord.Accepted = "Accepted";
                 }
                 else
                 {
