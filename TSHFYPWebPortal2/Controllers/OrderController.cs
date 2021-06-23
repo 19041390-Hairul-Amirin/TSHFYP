@@ -11,16 +11,21 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TSHFYPWebPortal2.Controllers
 {
-public class OrderController : Controller
-{
-   
-    public IActionResult About()
+    public class OrderController : Controller
     {
-        return View();
-    }
 
-    
-    public IActionResult Index()
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+
+public IActionResult Index()
     {
 
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");

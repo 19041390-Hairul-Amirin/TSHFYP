@@ -47,8 +47,9 @@ namespace TSHFYPWebPortal2.Controllers
             }
 
 
+
             //Login authentication for each supplier
-            else if (user.UserID.Equals("4000/G012")&& (user.Password.Equals("password3")))
+            else if (user.UserID.Equals("4000/G012") && (user.Password.Equals("password3")))
             {
                 HttpContext.SignInAsync(
                    CookieAuthenticationDefaults.AuthenticationScheme,
