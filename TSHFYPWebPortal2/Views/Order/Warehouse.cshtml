@@ -1,0 +1,118 @@
+﻿<title> FYP </title>
+@section MoreScripts {
+
+    <link href="~/lib/datatables/css/jquery.dataTables1.min.css" rel="stylesheet" />
+
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#TableA').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}
+
+
+
+
+@model DataRowCollection
+
+@*WAREHOUSE VIEWS*@
+
+@if (User.IsInRole("Warehouse"))
+{
+    <h2 style="text-align:center">@User.Identity.Name 's Purchase Orders </h2>
+}
+else if (User.IsInRole("manager"))
+{
+    <h2 style="text-align:center"> All supplier's Purchase Orders </h2>
+}
+<br />
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div>
+
+
+    <table id="TableC" class="table">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>PO Number</th>
+
+                <th>MPS/Job No</th>
+                <th>Purchaser / Buyer</th>
+
+                <th>Part Number</th>
+
+                <th>Description</th>
+                <th>Quantity</th>
+
+                <th>UOM</th>
+
+                <th>TSH CM PO Number</th>
+                <th>Status</th>
+
+</thead>
+
+        <tbody>
+
+
+            @foreach (DataRow row in Model)
+            {
+            <tr>
+                <td>@row["PONum"]</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["OrderDate"])</td>
+                <td>@row["Payment"]</td>
+                <td>@row["JobNum"]</td>
+                <td>@row["PartNum"]</td>
+                <td>@row["Purchaser"]</td>
+                <td>@row["Request"]</td>
+                <td>@row["PRNum"]</td>
+                <td>@row["Descr"]</td>
+                <td>@row["QTY"]</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["DueDate"])</td>
+                <td>@String.Format("{0:yyyy-MM-dd}", row["RevisedDate"])</td>
+                <td>@row["Currency"]</td>
+                <td>@row["UOM"]</td>
+                <td>@row["UnitPrice"]</td>
+                <td>@row["AMT"]</td>
+                <td>@row["TSHCMPONum"]</td>
+
+                @*To check if order is accepted*@
+                @if (row["Status"].Equals("Accepted"))
+                {
+                    <td>@row["Status"]</td>
+                }
+                else
+                {
+                    <td>
+                        @row["Status"]
+                        <a class="btn btn-primary" asp-controller="Order"
+                           asp-action="Edit"
+                           asp-route-id="@row["PId"]">Accept</a>
+
+
+                    </td>
+
+                }
+            </tr>
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
