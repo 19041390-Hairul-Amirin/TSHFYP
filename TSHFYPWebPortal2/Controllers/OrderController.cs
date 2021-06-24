@@ -29,7 +29,7 @@ public IActionResult Index()
     {
 
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("Index", dt.Rows);
+            return View("Supplier", dt.Rows);
             
        
            
@@ -42,22 +42,22 @@ public IActionResult Index()
         public IActionResult GTI()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='GTI'");
-            return View("Index", dt.Rows); ;
+            return View("Supplier", dt.Rows); ;
         }
 
         public IActionResult IFME()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='IFME'");
-            return View("Index", dt.Rows); ;
+            return View("Supplier", dt.Rows); ;
         }
 
         public IActionResult KHS()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='KHS'");
-            return View("Index", dt.Rows); ;
+            return View("Supplier", dt.Rows); ;
         }
         private const string REDIRECT_CNTR = "Order";
-        private const string REDIRECT_ACTN = "Index";
+        private const string REDIRECT_ACTN = "Supplier";
 
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
@@ -81,7 +81,7 @@ public IActionResult Index()
             {
                 TempData["Message"] = "Order not found";
                 TempData["MsgType"] = "warning";
-                return RedirectToAction("Index");
+                return RedirectToAction("Supplier");
             }
 
         }
@@ -91,7 +91,7 @@ public IActionResult Index()
         {
             TempData["Message"] = "Rejected";
             TempData["MsgType"] = "error";
-            return View("Index");
+            return View("Supplier");
         }
         [HttpPost]
         public IActionResult Edit(Order ord)
@@ -207,7 +207,7 @@ public IActionResult Index()
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Supplier");
             }
         }
 
