@@ -2,6 +2,7 @@
 @section MoreScripts {
 
     <link href="~/lib/datatables/css/jquery.dataTables1.min.css" rel="stylesheet" />
+   
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
 
     <script>
@@ -99,12 +100,14 @@ else if (User.IsInRole("manager"))
                     }
                     else
                     {
-                        <td>
-                            @row["Status"]
-                            <a asp-controller="Order"
-                               asp-action="Edit"
-                               asp-route-id="@row["PId"]">Accept</a>
-                        </td>
+                <td>
+                    @row["Status"]
+                    <a class="btn btn-primary" asp-controller="Order"
+                       asp-action="Edit"
+                       asp-route-id="@row["PId"]">Accept</a>
+
+              
+                </td>
 
                     }
                 </tr>

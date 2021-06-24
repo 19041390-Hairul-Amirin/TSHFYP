@@ -63,7 +63,14 @@ a:active {
 .selected {
     td
 }
+button {
+    transition-duration: 0.4s;
+}
 
+    .button:hover {
+        background-color: #4CAF50; /* Green */
+        color: white;
+    }
 {
     background-color: #27ae60;
     color: #fff;
