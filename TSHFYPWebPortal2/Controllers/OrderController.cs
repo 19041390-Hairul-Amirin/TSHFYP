@@ -65,6 +65,11 @@ public IActionResult Index()
             return View("Warehouse", dt.Rows); ;
         }
 
+        public IActionResult SCM()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+            return View("SCM", dt.Rows); ;
+        }
 
 
         [Authorize]
@@ -199,6 +204,12 @@ public IActionResult Index()
             }
 
 
+
+
+
+
+
+
             //Warehouse
             else if (ord.SupplierName.Equals("Warehouse"))
             {
@@ -221,6 +232,34 @@ public IActionResult Index()
                 return RedirectToAction("Warehouse");
             }
 
+
+
+
+
+
+
+
+            //SCM
+            else if (ord.SupplierName.Equals("SCM"))
+            {
+                string edit =
+                   @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Accepted";
+                    TempData["MsgType"] = "success";
+                    ord.Accepted = "Accepted";
+
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("SCM");
+            }
 
             else 
             {
