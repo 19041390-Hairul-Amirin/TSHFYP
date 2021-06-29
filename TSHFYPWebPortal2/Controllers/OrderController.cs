@@ -71,6 +71,14 @@ public IActionResult Index()
             return View("SCM", dt.Rows); ;
         }
 
+        public IActionResult Purchaser() //Able to view all 
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+            return View("purchaser", dt.Rows); ;
+        }
+
+
+
 
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
