@@ -79,7 +79,7 @@ public IActionResult Index()
             return View("purchaser", dt.Rows); ;
         }
 
-        public IActionResult Account() 
+        public IActionResult Account()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
             return View("account", dt.Rows);
