@@ -39,6 +39,8 @@ public IActionResult Index()
 
         //Different views for each supplier
         //They can only view 
+
+
         public IActionResult GTI()
         {
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='GTI'");

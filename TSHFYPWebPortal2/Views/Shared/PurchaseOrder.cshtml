@@ -1,12 +1,10 @@
 ﻿<div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Order" asp-action="About">About</a>
-        </li>
+       
         @if (User.IsInRole("manager"))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Order" asp-action="Index">Purchase Order</a>
+                <a class="nav-link" asp-controller="Order" asp-action="SCM">Purchase Order</a>
             </li>
         }
         @if (User.IsInRole("manager"))

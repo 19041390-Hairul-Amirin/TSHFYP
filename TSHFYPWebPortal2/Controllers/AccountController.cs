@@ -189,6 +189,26 @@ namespace TSHFYPWebPortal2.Controllers
                 return RedirectToAction("purchaser", "Order");
             }
 
+            //ADMIN
+            else if (user.UserID.Equals("admin") && (user.Password.Equals("admin")))
+            {
+                HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   principal);
+
+                // Update the Last Login Timestamp of the User
+                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
+
+                if (TempData["returnUrl"] != null)
+                {
+                    string returnUrl = TempData["returnUrl"].ToString();
+                    if (Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                }
+
+                return RedirectToAction("SCM", "Order");
+            }
+
 
             else  
             {

@@ -21,14 +21,11 @@
 
 @model DataRowCollection
 @*SCM/MANAGER VIEWS*@
-@if (User.IsInRole("SCM"))
-{
-    <h2 style="text-align:center">@User.Identity.Name 's supplier's Purchase Orders </h2>
-}
-else if (User.IsInRole("manager"))
-{
-    <h2 style="text-align:center"> All supplier's Purchase Orders </h2>
-}
+
+
+    <h2 style="text-align:center">@User.Identity.Name Portal </h2>
+
+
 <br />
 <br />
 
@@ -101,10 +98,8 @@ else if (User.IsInRole("manager"))
                     else
                     {
                         <td>
-                            @row["Status"]
-                            <a class="btn btn-primary" asp-controller="Order"
-                               asp-action="Edit"
-                               asp-route-id="@row["PId"]">Accept</a>
+                            
+                            <a> Not Accepted</a>
 
 
                         </td>
