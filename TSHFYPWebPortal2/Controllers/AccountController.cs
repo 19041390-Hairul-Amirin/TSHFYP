@@ -170,7 +170,7 @@ namespace TSHFYPWebPortal2.Controllers
 
             //Saleman View
 
-            else if (user.UserID.Equals("purchaser") && (user.Password.Equals("password1")))
+            else if (user.UserID.Equals("salesman") && (user.Password.Equals("password8")))
             {
                 HttpContext.SignInAsync(
                    CookieAuthenticationDefaults.AuthenticationScheme,
@@ -186,7 +186,7 @@ namespace TSHFYPWebPortal2.Controllers
                         return Redirect(returnUrl);
                 }
 
-                return RedirectToAction("purchaser", "Order");
+                return RedirectToAction("salesman", "Order");
             }
 
             //ADMIN

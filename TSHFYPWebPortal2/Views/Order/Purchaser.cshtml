@@ -1,0 +1,118 @@
+﻿<title> FYP </title>
+@section MoreScripts {
+
+    <link href="~/lib/datatables/css/jquery.dataTables1.min.css" rel="stylesheet" />
+
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#TableA').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}
+
+
+
+
+@model DataRowCollection
+@*SCM/MANAGER VIEWS*@
+
+
+<h2 style="text-align:center">@User.Identity.Name Portal </h2>
+
+
+<br />
+<br />
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div>
+
+
+    <table id="TableA" class="table">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>PO Number</th>
+                <th>Order Date</th>
+                <th>Payment Term</th>
+                <th>MPS/Job No</th>
+                <th>Purchaser / Buyer</th>
+                <th>Requester/Salesman</th>
+                <th>Part Number</th>
+                <th>PR Number</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Delivery Date</th>
+                <th>Revised Delivery Date</th>
+                <th>Currency</th>
+                <th>UOM</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+                <th>TSH CM PO Number</th>
+                <th>Status</th>
+        </thead>
+
+        <tbody>
+
+
+            @foreach (DataRow row in Model)
+            {
+                <tr>
+                    <td>@row["SupplierName"]</td>
+                    <td>@row["PONum"]</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["OrderDate"])</td>
+                    <td>@row["Payment"]</td>
+                    <td>@row["JobNum"]</td>
+                    <td>@row["Purchaser"]</td>
+                    <td>@row["Request"]</td>
+                    <td>@row["PartNum"]</td>
+                    <td>@row["PRNum"]</td>
+                    <td>@row["Descr"]</td>
+                    <td>@row["QTY"]</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["DueDate"])</td>
+                    <td>@String.Format("{0:yyyy-MM-dd}", row["RevisedDate"])</td>
+                    <td>@row["Currency"]</td>
+                    <td>@row["UOM"]</td>
+                    <td>@row["UnitPrice"]</td>
+                    <td>@row["AMT"]</td>
+                    <td>@row["TSHCMPONum"]</td>
+
+
+
+                    @*To check if order is accepted*@
+                    @if (row["Status"].Equals("Accepted"))
+                    {
+                        <td>@row["Status"]</td>
+                    }
+                    else
+                    {
+                        <td>
+
+                            <a> Not Accepted</a>
+
+
+                        </td>
+
+                    }
+                </tr>
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
