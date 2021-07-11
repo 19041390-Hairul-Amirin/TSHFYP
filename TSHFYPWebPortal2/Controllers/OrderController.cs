@@ -7,14 +7,69 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
 namespace TSHFYPWebPortal2.Controllers
 {
     public class OrderController : Controller
     {
 
-        public IActionResult About()
+        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public OrderController(IHostingEnvironment environment, IWebHostEnvironment webHostEnvironment)
+        {
+            hostingEnvironment = environment;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        [HttpPost]
+        public IActionResult UploadDO(UploadDO model)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+
+
+
+                // do other validations on your model as needed
+                if (model.File != null)
+                {
+                    var uniqueFileName = GetUniqueFileName(model.File.FileName);
+                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+                    var filePath = Path.Combine(uploads, uniqueFileName);
+                    model.File.CopyTo(new FileStream(filePath, FileMode.Create));
+
+
+
+                 
+
+                    //to do : Save uniqueFileName  to your db table   
+                }
+            }
+
+                // to do  : Return something
+                return RedirectToAction("UploadDO");
+            }
+            private string GetUniqueFileName(string fileName)
+            {
+                fileName = Path.GetFileName(fileName);
+                return Path.GetFileNameWithoutExtension(fileName)
+                          + "_"
+                          + Guid.NewGuid().ToString().Substring(0, 4)
+                          + Path.GetExtension(fileName);
+            }
+
+
+        
+
+
+
+            public IActionResult About()
         {
             return View();
         }
@@ -23,9 +78,18 @@ namespace TSHFYPWebPortal2.Controllers
         {
             return View();
         }
+        public IActionResult UploadDO()
+        {
+            return View();
+        }
 
 
-public IActionResult Index()
+
+
+        [HttpPost]
+        
+
+        public IActionResult Index()
     {
 
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
@@ -72,6 +136,11 @@ public IActionResult Index()
             DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
             return View("SCM", dt.Rows); ;
         }
+        public IActionResult Admin()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+            return View("Admin", dt.Rows); ;
+        }
 
         public IActionResult Purchaser() //Able to view all 
         {
@@ -94,6 +163,94 @@ public IActionResult Index()
                 return Redirect(returnUrl);
             return RedirectToAction("About");
         }
+
+
+
+
+
+
+
+
+        public ActionResult Cancel()
+        {
+            TempData["Message"] = "Rejected";
+            TempData["MsgType"] = "error";
+            return View("Supplier");
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+         return View("Add");
+            
+        }
+
+        public IActionResult Add(Order ord)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("Add");
+            }
+            else
+            {
+                string insert =
+                    @"INSERT INTO PurchaseOrder1(OrderDate, DueDate, RevisedDate, PONum, PRNum, SupplierID, SupplierName, Payment, PartNum, Descr, JobNum, Currency, QTY, UOM, UnitPrice, AMT, TSHCMPONum, Request, Purchaser) VALUES
+                      ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')  ";
+                int result = DBUtl.ExecSQL(insert, ord.OrderDate, ord.DueDate, ord.RevisedDate, ord.PONum, ord.PRNum, ord.SupplierID, ord.SupplierName, ord.Payment, ord.PartNum, ord.Descr, ord.JobNum, ord.Currency, ord.Qty, ord.UOM, ord.UnitPrice, ord.AMT, ord.TSHCMPONUm, ord.Request, ord.Purchaser);
+
+
+                if (result == 1)
+                {
+                    TempData["Message"] = "Purchase Order created";
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("Admin");
+            }
+        }
+
+
+        public IActionResult Delete(int id)
+        {
+            string select = @"SELECT * FROM PurchaseOrder1 WHERE Pid={0}";
+            DataTable ds = DBUtl.GetTable(select, id);
+            if (ds.Rows.Count != 1)
+            {
+                TempData["Message"] = "Order does not exist";
+                TempData["MsgType"] = "warning";
+            }
+            else
+            {
+                string delete = "DELETE FROM PurchaseOrder1 WHERE Pid={0}";
+                int res = DBUtl.ExecSQL(delete, id);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Deleted";
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+            }
+            return RedirectToAction("Admin");
+        }
+
+
+
+
+
+
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -114,12 +271,7 @@ public IActionResult Index()
         }
 
 
-        public ActionResult Cancel()
-        {
-            TempData["Message"] = "Rejected";
-            TempData["MsgType"] = "error";
-            return View("Supplier");
-        }
+        
         [HttpPost]
         public IActionResult Edit(Order ord)
         {

@@ -61,6 +61,7 @@
                 <th>Amount</th>
                 <th>TSH CM PO Number</th>
                 <th>Status</th>
+                <th>Action</th>
         </thead>
 
         <tbody>
@@ -68,44 +69,59 @@
 
             @foreach (DataRow row in Model)
             {
-                <tr>
-                    <td>@row["SupplierName"]</td>
-                    <td>@row["PONum"]</td>
-                    <td>@String.Format("{0:dd-MM-yyyy}", row["OrderDate"])</td>
-                    <td>@row["Payment"]</td>
-                    <td>@row["JobNum"]</td>
-                    <td>@row["Purchaser"]</td>
-                    <td>@row["Request"]</td>
-                    <td>@row["PartNum"]</td>
-                    <td>@row["PRNum"]</td>
-                    <td>@row["Descr"]</td>
-                    <td>@row["QTY"]</td>
-                    <td>@String.Format("{0:dd-MM-yyyy}", row["DueDate"])</td>
-                    <td>@String.Format("{0:dd-MM-yyyy}", row["RevisedDate"])</td>
-                    <td>@row["Currency"]</td>
-                    <td>@row["UOM"]</td>
-                    <td>@row["UnitPrice"]</td>
-                    <td>@row["AMT"]</td>
-                    <td>@row["TSHCMPONum"]</td>
+            <tr>
+                <td>@row["SupplierName"]</td>
+                <td>@row["PONum"]</td>
+                <td>@String.Format("{0:dd-MM-yyyy}", row["OrderDate"])</td>
+                <td>@row["Payment"]</td>
+                <td>@row["JobNum"]</td>
+                <td>@row["Purchaser"]</td>
+                <td>@row["Request"]</td>
+                <td>@row["PartNum"]</td>
+                <td>@row["PRNum"]</td>
+                <td>@row["Descr"]</td>
+                <td>@row["QTY"]</td>
+                <td>@String.Format("{0:dd-MM-yyyy}", row["DueDate"])</td>
+                <td>@String.Format("{0:dd-MM-yyyy}", row["RevisedDate"])</td>
+                <td>@row["Currency"]</td>
+                <td>@row["UOM"]</td>
+                <td>@row["UnitPrice"]</td>
+                <td>@row["AMT"]</td>
+                <td>@row["TSHCMPONum"]</td>
 
 
 
-                    @*To check if order is accepted*@
-                    @if (row["Status"].Equals("Accepted"))
-                    {
-                        <td>@row["Status"]</td>
-                    }
-                    else
-                    {
-                        <td>
-
-                            <a> Not Accepted</a>
 
 
-                        </td>
 
-                    }
-                </tr>
+                @*To check if order is accepted*@
+                @if (row["Status"].Equals("Accepted"))
+                {
+                    <td>@row["Status"]</td>
+                }
+                else
+                {
+                    <td>
+
+                        <a> Not Accepted</a>
+
+
+                    </td>
+
+                }
+
+                <td>
+                    <a asp-controller="Order"
+                       asp-action="Delete"
+                       asp-route-id="@row["Pid"]"
+                       onclick="return confirm('Delete Order <@row["Descr"]>')">
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
 
 
             }

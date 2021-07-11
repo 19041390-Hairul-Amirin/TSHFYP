@@ -1,6 +1,4 @@
 ﻿
-
-
 @section MoreScripts {
 
     <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -35,26 +33,7 @@
     <input asp-for="PId" hidden />
 
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="OrderDate">Order Date: </label>
-        <div class="col-sm-5">
-            <input asp-for="OrderDate" class="form-control" readonly="readonly" />
-        </div>
-        <div class="col-sm-4">
-            <span asp-validation-for="OrderDate" class="text-danger"></span>
-        </div>
-    </div>
 
-
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="DueDate">Due Date: </label>
-        <div class="col-sm-5">
-            <input asp-for="DueDate" class="form-control" readonly="readonly" />
-        </div>
-        <div class="col-sm-4">
-            <span asp-validation-for="OrderDate" class="text-danger"></span>
-        </div>
-    </div>
 
     <div class="form-group row">
 
@@ -88,7 +67,15 @@
     </div>
 
 
-
+    <div class="form-group row">
+        <label class="control-label col-sm-2" asp-for="OrderDate">Order Date: </label>
+        <div class="col-sm-5">
+            <input asp-for="OrderDate" class="form-control" readonly="readonly" />
+        </div>
+        <div class="col-sm-4">
+            <span asp-validation-for="OrderDate" class="text-danger"></span>
+        </div>
+    </div>
 
 
     <div class="form-group row">
@@ -107,18 +94,6 @@
     </div>
 
 
-    <div class="form-group row">
-        <label class="control-label col-sm-2" asp-for="DO">Delivery Order: </label>
-        <div class="col-sm-5">
-            <input asp-for="DO" class="form-control" readonly="readonly" />
-        </div>
-        <div class="col-sm-4">
-            <span asp-validation-for="Descr" class="text-danger"></span>
-        </div>
-    </div>
-
-
-
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6">
@@ -132,15 +107,6 @@
         </div>
     </div>
 
-
-    <a asp-controller="Order" asp-action="uploadDO">
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-6">
-                <input type="button" value="Upload" class="btn btn-outline-primary" />
-            </div>
-        </div>
-    </a>
-
     @if (ViewData["Message"] != null)
     {
         <div class="form-group row">
@@ -153,4 +119,3 @@
     }
 
 </form>
-
