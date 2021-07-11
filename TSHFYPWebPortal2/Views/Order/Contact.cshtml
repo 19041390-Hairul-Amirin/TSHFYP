@@ -1,24 +1,34 @@
-﻿<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@{
+    Layout = "_Layout";
+}
+
+<form asp-controller="Account"
+      asp-action="Contact"
+      method="post">
+
+
+
+    <h2>@ViewData["Title"]</h2>
+    <h3>@ViewData["Message"]</h3>
 
 
 
 
-<section class="jumbotron text-center">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">CONTACT US</h1>
+            <p class="lead text-muted mb-0">Contact us for any problems</p>
+        </div>
+    </section>
     <div class="container">
-        <h1 class="jumbotron-heading">CONTACT US</h1>
-        <p class="lead text-muted mb-0">Contact us for any problems</p>
-    </div>
-</section>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <i class="fa fa-envelope"></i> Contact Us
-                </div>
-                <div class="card-body">
-                    <form>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fa fa-envelope"></i> Contact Us
+                    </div>
+                    <div class="card-body">
+
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name" required>
@@ -35,61 +45,72 @@
                         <div class="mx-auto">
                             <button type="submit" class="btn btn-primary text-right">Submit</button>
                         </div>
-                    </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-success text-white text-uppercase"><i class="fa fa-home"></i> Contact Information</div>
+                    <div class="card-body">
+                        <address>
+                            <strong>Company / Organisation Details:</strong>
+                            <p>
+                                TSH Synergy Pte Ltd
+                                2 Sims Close , 02 03
+                                Singapore
+                            </p>
+                        </address>
+
+                        <address>
+                            <strong>Name:</strong>
+                            <p>Kong Tiong Kah</p>
+                        </address>
+
+                        <address>
+                            <strong>Designation:</strong>
+                            <p>Finance Manager</p>
+                        </address>
+
+                        <address>
+                            <strong>Email:</strong>
+                            <p><a href="mailto:tkkahtshgroup.com.sg">tkkahtshgroup.com.sg</a></p>
+                        </address>
+
+                        <address>
+                            <strong>Contact Number:</strong>
+                            <p>98333306</p>
+                        </address>
+                        <address>
+                            <strong>Support:</strong> <a href="mailto:Support@TSH.com">Support@TSH.com</a><br />
+                            <strong>Marketing:</strong> <a href="mailto:Marketing@TSH.com">Marketing@TSH.com</a>
+                        </address>
+
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header bg-success text-white text-uppercase"><i class="fa fa-home"></i> Contact Information</div>
-                <div class="card-body">
-                    <address>
-                        <strong>Company / Organisation Details:</strong>
-                        <p>
-                            TSH Synergy Pte Ltd
-                            2 Sims Close , 02 03
-                            Singapore
-                        </p>
-                    </address>
-
-                    <address>
-                        <strong>Name:</strong>
-                        <p>Kong Tiong Kah</p>
-                    </address>
-
-                    <address>
-                        <strong>Designation:</strong>
-                        <p>Finance Manager</p>
-                    </address>
-
-                    <address>
-                        <strong>Email:</strong>
-                        <p><a href="mailto:tkkahtshgroup.com.sg">tkkahtshgroup.com.sg</a></p>
-                    </address>
-
-                    <address>
-                        <strong>Contact Number:</strong>
-                        <p>98333306</p>
-                    </address>
-                                    <address>
-                                        <strong>Support:</strong> <a href="mailto:Support@TSH.com">Support@TSH.com</a><br />
-                                        <strong>Marketing:</strong> <a href="mailto:Marketing@TSH.com">Marketing@TSH.com</a>
-                                    </address>
-
-</div>
-
-            </div>
-        </div>
     </div>
-</div>
 
-<!-- Footer -->
-<footer class="text-light">
-    <div class="container">
+    @if (ViewData["Message"] != null)
+    {
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-6">
+                <div class="alert alert-@ViewData["MsgType"]">
+                    <text>@ViewData["Message"]</text>
+                </div>
+            </div>
+        </div>}
+
+    <!-- Footer -->
+    <footer class="text-light">
+        <div class="container">
 
             <div class="col-12 copyright mt-3">
                 <p class="float-left">
                     <a href="#">Back to top</a>
-                    </div>
+            </div>
         </div>
-</footer>
+    </footer>
+</form>

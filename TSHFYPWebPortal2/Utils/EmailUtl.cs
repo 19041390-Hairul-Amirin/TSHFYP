@@ -19,7 +19,7 @@ public static class EmailUtl
    private static string HOST = "smtp.live.com";
    private static int PORT = 25;
 
-   public static bool SendEmail(string recipient,
+   public static bool Contact(string recipient,
                                 string subject, string msg,
                             out string error)
    {

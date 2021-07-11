@@ -330,7 +330,7 @@ namespace TSHFYPWebPortal2.Controllers
                     string message = String.Format(template, usr.FullName, usr.UserId, usr.UserPw);
                     string result;
 
-                    if (EmailUtl.SendEmail(usr.Email, title, message, out result))
+                    if (EmailUtl.Contact(usr.Email, title, message, out result))
                     {
                         ViewData["Message"] = "User Successfully Registered";
                         ViewData["MsgType"] = "success";
