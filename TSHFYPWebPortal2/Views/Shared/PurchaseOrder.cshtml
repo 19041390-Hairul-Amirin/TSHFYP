@@ -25,12 +25,7 @@
                 <a class="nav-link" asp-controller="Order" asp-action="Add">Add Purchase Order</a>
             </li>
         }
-        @if (User.IsInRole("admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Order" asp-action="Users">List of Users</a>
-            </li>
-        }
+        
     </ul>
 
 
