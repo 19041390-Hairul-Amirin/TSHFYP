@@ -1,0 +1,67 @@
+﻿<title> FYP </title>
+@section MoreScripts {
+
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#TableA').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}
+
+
+
+
+@model DataRowCollection
+@*SCM/MANAGER VIEWS*@
+
+
+<h2 style="text-align:center">@User.Identity.Name Portal </h2>
+
+
+<br />
+<br />
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
+
+<div>
+
+
+    <table id="TableA" class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>User Role</th>
+        </thead>
+
+        <tbody>
+
+
+            @foreach (DataRow row in Model)
+            {
+                <tr>
+                    <td>@row["FullName"]</td>
+                    <td>@row["UserRole"]</td>
+                </tr>
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+
