@@ -2,7 +2,7 @@
     Layout = "_Layout";
 }
 
-<form asp-controller="Account"
+<form asp-controller="MailSender"
       asp-action="Contact"
       method="post">
 
@@ -43,7 +43,7 @@
                             <textarea class="form-control" id="message" rows="6" required></textarea>
                         </div>
                         <div class="mx-auto">
-                            <button type="submit" class="btn btn-primary text-right">Submit</button>
+                            <button type="submit" class="btn btn-primary text-right" onclick="SendEmail()">Submit</button>
                         </div>
 
                     </div>
@@ -93,15 +93,34 @@
         </div>
     </div>
 
-    @if (ViewData["Message"] != null)
-    {
-        <div class="form-group row">
-            <div class="offset-sm-2 col-sm-6">
-                <div class="alert alert-@ViewData["MsgType"]">
-                    <text>@ViewData["Message"]</text>
-                </div>
-            </div>
-        </div>}
+
+
+
+    <script>
+
+		function SendEmail(){
+
+			$.ajax(
+			{
+				type: "POST",
+				url: '@Url.Action("SendEmail", "MailSender")',
+				data: {
+					Name: $("#name").val(),
+					Email: $("#email").val(),
+					Message: $("#message").val()
+				},
+				error: function (result) {
+					console.log(result);
+				},
+				success: function (result) {
+					alert(result);
+					$("#name").val("");
+					$("#email").val("");
+					$("#message").val("");
+				}
+			});
+		}
+    </script>
 
     <!-- Footer -->
     <footer class="text-light">
