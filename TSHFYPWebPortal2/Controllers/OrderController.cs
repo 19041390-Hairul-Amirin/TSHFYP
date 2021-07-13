@@ -154,6 +154,11 @@ namespace TSHFYPWebPortal2.Controllers
             return View("account", dt.Rows);
         }
 
+        public IActionResult UserList()
+        {
+            DataTable dt = DBUtl.GetTable("SELECT * FROM TSHUsers");
+            return View("UserList", dt.Rows);
+        }
 
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
