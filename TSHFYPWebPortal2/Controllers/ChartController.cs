@@ -18,8 +18,14 @@ namespace TSHFYPWebPortal2.Controllers
             return View("Summary");
         }
 
-
-
+        public IActionResult Value()
+        {
+            PrepareData(2);
+            ViewData["Chart"] = "pie";
+            ViewData["Title"] = "Top 10 Supplier by Value";
+            ViewData["ShowLegend"] = "true";
+            return View("Summary");
+        }
 
         private void PrepareData(int x)
         {
@@ -35,12 +41,32 @@ namespace TSHFYPWebPortal2.Controllers
                 else if (order.SupplierName.Equals("TEI")) name[5]++;
             }
 
+            // Supplier Value
+            float[] price = new float[] { 0, 0, 0, 0, 0, 0 };
+            foreach (Order order in list)
+            {
+                if (order.SupplierName.Equals("GTI")) price[0] = order.UnitPrice;
+                else if (order.SupplierName.Equals("IFME")) price[1] = order.UnitPrice;
+                else if (order.SupplierName.Equals("KHS")) price[2] = order.UnitPrice;
+                else if (order.SupplierName.Equals("KSPAI")) price[3] = order.UnitPrice;
+                else if (order.SupplierName.Equals("PPP")) price[4] = order.UnitPrice;
+                else if (order.SupplierName.Equals("TEI")) price[5] = order.UnitPrice;
+            }
+
             if (x == 1)
             {
                 ViewData["Legend"] = "Orders by Suppliers Name";
                 ViewData["Colors"] = new[] { "violet", "green", "blue", "orange", "red","yellow" };
                 ViewData["Labels"] = new[] { "GTI", "IFME", "KHS", "KSPAI", "PPP","TEI" };
                 ViewData["Data"] = name;
+            }
+            //Top 10 Supplier by Value
+            else if (x == 2)
+            {
+                ViewData["Legend"] = "Top 10 Suppliers by Value ($)";
+                ViewData["Colors"] = new[] { "violet", "green", "blue", "orange", "red", "yellow" };
+                ViewData["Labels"] = new[] { "GTI", "IFME", "KHS", "KSPAI", "PPP", "TEI" };
+                ViewData["Data"] = price;
             }
             else
             {

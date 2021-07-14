@@ -25,10 +25,18 @@
                 <a class="nav-link" asp-controller="Order" asp-action="Add">Add Purchase Order</a>
             </li>
         }
+        <!--User List-->
         @if (User.IsInRole("admin"))
         {
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Order" asp-action="UserList">List of Users</a>
+            </li>
+        }
+        <!--Supplier Value-->
+        @if (User.IsInRole("manager"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Chart" asp-action="Value">Dash</a>
             </li>
         }
     </ul>
