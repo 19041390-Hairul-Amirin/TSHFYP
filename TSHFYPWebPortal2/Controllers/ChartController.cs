@@ -45,12 +45,12 @@ namespace TSHFYPWebPortal2.Controllers
             float[] price = new float[] { 0, 0, 0, 0, 0, 0 };
             foreach (Order order in list)
             {
-                if (order.SupplierName.Equals("GTI")) price[0] = order.UnitPrice;
-                else if (order.SupplierName.Equals("IFME")) price[1] = order.UnitPrice;
-                else if (order.SupplierName.Equals("KHS")) price[2] = order.UnitPrice;
-                else if (order.SupplierName.Equals("KSPAI")) price[3] = order.UnitPrice;
-                else if (order.SupplierName.Equals("PPP")) price[4] = order.UnitPrice;
-                else if (order.SupplierName.Equals("TEI")) price[5] = order.UnitPrice;
+                if (order.SupplierName.Equals("GTI")) price[0] += order.UnitPrice;
+                else if (order.SupplierName.Equals("IFME")) price[1] += order.UnitPrice;
+                else if (order.SupplierName.Equals("KHS")) price[2] += order.UnitPrice;
+                else if (order.SupplierName.Equals("KSPAI")) price[3] += order.UnitPrice;
+                else if (order.SupplierName.Equals("PPP")) price[4] += order.UnitPrice;
+                else if (order.SupplierName.Equals("TEI")) price[5] += order.UnitPrice;
             }
 
             if (x == 1)
@@ -64,7 +64,7 @@ namespace TSHFYPWebPortal2.Controllers
             else if (x == 2)
             {
                 ViewData["Legend"] = "Top 10 Suppliers by Value ($)";
-                ViewData["Colors"] = new[] { "violet", "green", "blue", "orange", "red", "yellow" };
+                ViewData["Colors"] = new[] { "red", "green", "orange", "blue", "yellow", "indigo" };
                 ViewData["Labels"] = new[] { "GTI", "IFME", "KHS", "KSPAI", "PPP", "TEI" };
                 ViewData["Data"] = price;
             }

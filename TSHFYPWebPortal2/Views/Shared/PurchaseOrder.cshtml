@@ -7,12 +7,6 @@
                 <a class="nav-link" asp-controller="Order" asp-action="SCM">Purchase Order</a>
             </li>
         }
-        @if (User.IsInRole("manager") || (User.IsInRole("admin")))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Chart" asp-action="Name">DashBoard</a>
-            </li>
-        }
         @if (User.IsInRole("admin"))
         {
             <li class="nav-item">
@@ -32,32 +26,40 @@
                 <a class="nav-link" asp-controller="Order" asp-action="UserList">List of Users</a>
             </li>
         }
-        <!--Supplier Value-->
-        @if (User.IsInRole("manager"))
+        <!--DashBoard-->
+        @if (User.IsInRole("manager") || (User.IsInRole("admin")))
         {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Chart" asp-action="Value">Dash</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" href="#"
+                   id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    DashBoard
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Chart" asp-action="Name">DashBoard</a>
+                    <a class="dropdown-item" asp-controller="Chart" asp-action="Value">Dash</a>
+                </div>
             </li>
         }
     </ul>
 
 
-   <ul class="nav navbar-nav ml-auto">
-      <li>
-         <p class="navbar-text">
-            Welcome @User.Identity.Name<br />
-         </p>
-      </li>
-      <li>
-          <a class="nav-link" asp-controller="Order" asp-action="Logoff">
-              <i class="fas fa-sign-out-alt"></i>
-              Logout
-          </a>
-      </li>
-      <li>
-         &nbsp;&nbsp;&nbsp;
-      </li>
-   </ul>
-</div>
+        <ul class="nav navbar-nav ml-auto">
+            <li>
+                <p class="navbar-text">
+                    Welcome @User.Identity.Name<br />
+                </p>
+            </li>
+            <li>
+                <a class="nav-link" asp-controller="Order" asp-action="Logoff">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </li>
+            <li>
+                &nbsp;&nbsp;&nbsp;
+            </li>
+        </ul>
+        </div>
 
 
