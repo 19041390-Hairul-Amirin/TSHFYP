@@ -87,72 +87,59 @@ namespace TSHFYPWebPortal2.Controllers
 
 
         [HttpPost]
-        
 
-        public IActionResult Index()
-    {
 
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("Supplier", dt.Rows);
-            
-       
-           
-
-    }
+  
 
 
         //Different views for each supplier
         //They can only view 
 
-
-        public IActionResult GTI()
+        [HttpGet]
+        [Authorize]
+        public IActionResult Portal()
         {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='GTI'");
-            return View("Supplier", dt.Rows); ;
+            if (User.IsInRole("Supplier"))
+            {
+                string username = User.Identity.Name;
+                DataTable dt = DBUtl.GetTable($"SELECT * FROM PurchaseOrder1 WHERE SupplierName='{username}'");
+                return View("Supplier", dt.Rows); ;
+            }
+            else if (User.IsInRole("admin"))
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("Admin", dt.Rows); ;
+            }
+            else if (User.IsInRole("purchaser"))
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("Purchaser", dt.Rows); ;
+            }
+            else if (User.IsInRole("Warehouse"))
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("Warehouse", dt.Rows); ;
+            }
+            else if (User.IsInRole("account"))
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("Account", dt.Rows); ;
+            }
+            else if (User.IsInRole("manager"))
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("SCM", dt.Rows); ;
+            }
+            else
+            {
+                
+                return View("About"); ;
+            }
         }
 
-        public IActionResult IFME()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='IFME'");
-            return View("Supplier", dt.Rows); ;
-        }
+     
 
-        public IActionResult KHS()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1 WHERE SupplierName='KHS'");
-            return View("Supplier", dt.Rows); ;
-        }
-        private const string REDIRECT_CNTR = "Order";
-        private const string REDIRECT_ACTN = "Supplier";
-
-        public IActionResult Warehouse()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("Warehouse", dt.Rows); ;
-        }
-
-        public IActionResult SCM()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("SCM", dt.Rows); ;
-        }
-        public IActionResult Admin()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("Admin", dt.Rows); ;
-        }
-
-        public IActionResult Purchaser() //Able to view all 
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("purchaser", dt.Rows); ;
-        }
-
-        public IActionResult Account()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
-            return View("account", dt.Rows);
-        }
+       
 
         public IActionResult UserList()
         {
@@ -180,7 +167,7 @@ namespace TSHFYPWebPortal2.Controllers
         {
             TempData["Message"] = "Rejected";
             TempData["MsgType"] = "error";
-            return View("Supplier");
+            return View("Portal");
         }
 
 
@@ -218,14 +205,14 @@ namespace TSHFYPWebPortal2.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("Admin");
+                return RedirectToAction("Portal");
             }
         }
 
 
         public IActionResult Delete(int id)
         {
-            string select = @"SELECT * FROM PurchaseOrder1 WHERE Pid={0}";
+            string select = @"SELECT * FROM PurchaseOrder1 WHERE PId={0}";
             DataTable ds = DBUtl.GetTable(select, id);
             if (ds.Rows.Count != 1)
             {
@@ -234,7 +221,7 @@ namespace TSHFYPWebPortal2.Controllers
             }
             else
             {
-                string delete = "DELETE FROM PurchaseOrder1 WHERE Pid={0}";
+                string delete = "DELETE FROM PurchaseOrder1 WHERE PId={0}";
                 int res = DBUtl.ExecSQL(delete, id);
                 if (res == 1)
                 {
@@ -247,18 +234,15 @@ namespace TSHFYPWebPortal2.Controllers
                     TempData["MsgType"] = "danger";
                 }
             }
-            return RedirectToAction("Admin");
+            return RedirectToAction("Portal");
         }
 
 
 
-
-
-
-
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Update(int id)
         {
+
             string updatesql = @"SELECT * FROM PurchaseOrder1
                                WHERE PId = {0}";
             List<Order> lstorder = DBUtl.GetList<Order>(updatesql, id);
@@ -276,27 +260,103 @@ namespace TSHFYPWebPortal2.Controllers
         }
 
 
-        
         [HttpPost]
-        public IActionResult Edit(Order ord)
+        public IActionResult Update(Order ord)
         {
+            
+            
             if (!ModelState.IsValid)
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
-                return View("Edit");
+                return View("Update");
+            }
+
+            
+            else 
+            {
+                string edit =
+                   @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Updated";
+                    TempData["MsgType"] = "success";
+                   
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("Portal");
             }
 
 
-            //Accept function for each supplier 
+
+            
+
+
+
+
+        }
 
 
 
 
 
 
-            //GTI
-            else if (ord.SupplierName.Equals("GTI"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         [HttpGet]
+        public IActionResult Accept(int id)
+        {
+            string updatesql = @"SELECT * FROM PurchaseOrder1
+                               WHERE PId = {0}";
+            List<Order> lstorder = DBUtl.GetList<Order>(updatesql, id);
+            if (lstorder.Count == 1)
+            {
+                return View(lstorder[0]);
+            }
+            else
+            {
+                TempData["Message"] = "Order not found";
+                TempData["MsgType"] = "warning";
+                return RedirectToAction("Portal","Order");
+            }
+
+        }
+
+
+        
+        [HttpPost]
+        public IActionResult Accept(Order ord)
+        {
+            string username = User.Identity.Name;
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("Accept");
+            }
+           
+            else if (ord.SupplierName.Equals(username))
             {
                 string edit =
                    @"UPDATE PurchaseOrder1
@@ -313,144 +373,16 @@ namespace TSHFYPWebPortal2.Controllers
                     TempData["Message"] = DBUtl.DB_Message;
                     TempData["MsgType"] = "danger";
                 }
-                return RedirectToAction("GTI");
+                return RedirectToAction("Portal","Order");
             }
 
+            return RedirectToAction("Portal", "Order");
 
 
 
 
 
-
-            //IFME
-            else if (ord.SupplierName.Equals("IFME"))
-            {
-                string edit =
-                   @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
-                if (res == 1)
-                {
-                    TempData["Message"] = "Order Accepted";
-                    TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
-
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("IFME");
-            }
-
-
-
-
-
-
-
-
-
-            //KHS
-            else if (ord.SupplierName.Equals("KHS"))
-            {
-                string edit =
-                   @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
-                if (res == 1)
-                {
-                    TempData["Message"] = "Order Accepted";
-                    TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
-
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("KHS");
-            }
-
-
-
-
-
-
-
-
-            //Warehouse
-            else if (ord.SupplierName.Equals("Warehouse"))
-            {
-                string edit =
-                   @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
-                if (res == 1)
-                {
-                    TempData["Message"] = "Order Accepted";
-                    TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
-
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("Warehouse");
-            }
-
-
-
-
-
-
-
-
-            //SCM
-            else if (ord.SupplierName.Equals("SCM"))
-            {
-                string edit =
-                   @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
-                if (res == 1)
-                {
-                    TempData["Message"] = "Order Accepted";
-                    TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
-
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("SCM");
-            }
-
-            else 
-            {
-                string edit =
-                  @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
-                if (res == 1)
-                {
-                    TempData["Message"] = "Order Accepted";
-                    TempData["MsgType"] = "success";
-                    ord.Accepted = "Accepted";
-                }
-                else
-                {
-                    TempData["Message"] = DBUtl.DB_Message;
-                    TempData["MsgType"] = "danger";
-                }
-                return RedirectToAction("Supplier");
-            }
+          
         }
 
 

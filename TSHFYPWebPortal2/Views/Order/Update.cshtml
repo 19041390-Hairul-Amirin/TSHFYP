@@ -25,7 +25,7 @@
 
 
 <form asp-controller="Order"
-      asp-action="Edit"
+      asp-action="Update"
       method="post">
 
     <h2> Order confirmation </h2>
@@ -38,7 +38,7 @@
     <div class="form-group row">
 
         <div class="col-sm-5">
-            <input type="hidden" asp-for="SupplierName" class="form-control" readonly="readonly" />
+            <input type="hidden" asp-for="SupplierName" class="form-control"  />
         </div>
         <div class="col-sm-4">
             <span asp-validation-for="SupplierName" class="text-danger"></span>
@@ -48,7 +48,7 @@
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="PONum">PO Number: </label>
         <div class="col-sm-5">
-            <input asp-for="PONum" class="form-control" readonly="readonly" />
+            <input asp-for="PONum" class="form-control"  />
         </div>
         <div class="col-sm-4">
             <span asp-validation-for="PONum" class="text-danger"></span>
@@ -59,7 +59,7 @@
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="Descr">Description: </label>
         <div class="col-sm-5">
-            <input asp-for="Descr" class="form-control" readonly="readonly" />
+            <input asp-for="Descr" class="form-control"  />
         </div>
         <div class="col-sm-4">
             <span asp-validation-for="Descr" class="text-danger"></span>
@@ -70,7 +70,7 @@
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="OrderDate">Order Date: </label>
         <div class="col-sm-5">
-            <input asp-for="OrderDate" class="form-control" readonly="readonly" />
+            <input asp-for="OrderDate" class="form-control"  />
         </div>
         <div class="col-sm-4">
             <span asp-validation-for="OrderDate" class="text-danger"></span>
@@ -82,7 +82,7 @@
         <label class="control-label col-sm-2" for="RevisedDate">Delivery Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="text" readonly="readonly" asp-for="RevisedDate" class="form-control" asp-format="{0:yyyy MM dd}" />
+                <input type="text" asp-for="RevisedDate" class="form-control" asp-format="{0:yyyy MM dd}" />
                 <div class="input-group-append" data-target="#JSPerformDT" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="fa fa-calendar"></i> </div>
                 </div>
@@ -97,13 +97,13 @@
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6">
-            <input type="submit" value="Accept" class="btn btn-outline-primary" />
+            <input type="submit" value="Update" class="btn btn-outline-primary" />
         </div>
     </div>
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-6">
-            <input type="button" value="Reject" class="btn btn-outline-primary" onclick="history.back()" />
+            <input type="button" value="Cancel" class="btn btn-outline-primary" onclick="history.back()" />
         </div>
     </div>
 

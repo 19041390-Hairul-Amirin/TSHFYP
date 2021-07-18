@@ -102,9 +102,9 @@ else if (User.IsInRole("manager"))
                     {
                 <td>
                     @row["Status"]
-                    <a type="submit" value="Edit" class="btn btn-outline-primary" asp-controller="Order" 
+                    <a type="submit" value="Accept" class="btn btn-outline-primary" asp-controller="Order" 
                        
-                       asp-action="Edit"
+                       asp-action="Accept"
                        asp-route-id="@row["PId"]">Accept</a>
 
               

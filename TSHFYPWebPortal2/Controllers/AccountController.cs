@@ -52,210 +52,27 @@ namespace TSHFYPWebPortal2.Controllers
                 ViewData["MsgType"] = "warning";
                 return View(LOGIN_VIEW);
             }
-
-
-
-            //Login authentication for each supplier
-            else if (user.UserID.Equals("4000/G012"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("GTI", "Order");
-            }
-
-
-            else if (user.UserID.Equals("4000/I003"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("IFME", "Order");
-            }
-
-
-
-            else if (user.UserID.Equals("4000/K001"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("KHS", "Order");
-            }
-
-            else if (user.UserID.Equals("Warehouse"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Warehouse", "Order");
-            }
-
-            else if (user.UserID.Equals("SCM"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("SCM", "Order");
-            }
-
-            //Purchaser View
-
-            else if (user.UserID.Equals("purchaser"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("purchaser", "Order");
-            }
-
-            //Saleman View
-
-            else if (user.UserID.Equals("salesman"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("salesman", "Order");
-            }
-
-            //ADMIN
-            else if (user.UserID.Equals("admin"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Admin", "Order");
-            }
-
-            else if (user.UserID.Equals("account"))
-            {
-                HttpContext.SignInAsync(
-                   CookieAuthenticationDefaults.AuthenticationScheme,
-                   principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
-                {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Account", "Order");
-            }
-
-
             else
             {
                 HttpContext.SignInAsync(
                    CookieAuthenticationDefaults.AuthenticationScheme,
                    principal);
-
-                // Update the Last Login Timestamp of the User
-                DBUtl.ExecSQL(LASTLOGIN_SQL, user.UserID);
-
-                if (TempData["returnUrl"] != null)
+                string select = $"SELECT * FROM TSHUsers WHERE FullName='{user.UserID}'";
+                if (DBUtl.GetTable(select).Rows.Count > 0)
                 {
-                    string returnUrl = TempData["returnUrl"].ToString();
-                    if (Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
+                    if (TempData["returnUrl"] != null)
+                    {
+                        string returnUrl = TempData["returnUrl"].ToString();
+                        if (Url.IsLocalUrl(returnUrl))
+                            return Redirect(returnUrl);
+
+                    }
+
+                    return RedirectToAction("Portal", "Order"); 
                 }
+                return View();
 
-                return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
-
-
-
+               
             }
         }
 

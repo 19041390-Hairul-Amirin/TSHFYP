@@ -4,7 +4,7 @@
         @if (User.IsInRole("manager") || (User.IsInRole("admin")))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Order" asp-action="SCM">Purchase Order</a>
+                <a class="nav-link" asp-controller="Order" asp-action="Portal">Purchase Order</a>
             </li>
         }
         @if (User.IsInRole("admin"))

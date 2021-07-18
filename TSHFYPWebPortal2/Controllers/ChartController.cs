@@ -9,6 +9,25 @@ namespace TSHFYPWebPortal2.Controllers
 {
     public class ChartController : Controller
     {
+
+       
+        
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        
+
+    
+
+
+    public IActionResult Test()
+        {
+            return View("Test");
+
+
+         }
         public IActionResult Name()
         {
             PrepareData(1); 
@@ -18,7 +37,19 @@ namespace TSHFYPWebPortal2.Controllers
             return View("Summary");
         }
 
-        public IActionResult Value()
+
+
+        public IActionResult Fruit()
+        {
+            ViewData["Chart"] = "pie";
+            ViewData["Title"] = "Supplier Name";
+            ViewData["ShowLegend"] = "true";
+            return View("Summary");
+
+
+        }
+
+            public IActionResult Value()
         {
             PrepareData(2);
             ViewData["Chart"] = "pie";
@@ -26,35 +57,50 @@ namespace TSHFYPWebPortal2.Controllers
             ViewData["ShowLegend"] = "true";
             return View("Summary");
         }
-
+        [HttpGet]
         private void PrepareData(int x)
         {
+            
             int[] name = new int[] { 0, 0, 0, 0, 0, 0 };
+            float[] price = new float[] { 0f, 0f, 0f, 0f, 0f, 0f };
             List<Order> list = DBUtl.GetList<Order>("SELECT * FROM PurchaseOrder1");
             foreach (Order order in list)
             {
+                
                 if (order.SupplierName.Equals("GTI")) name[0]++;
                 else if (order.SupplierName.Equals("IFME")) name[1]++;
                 else if (order.SupplierName.Equals("KHS")) name[2]++;
                 else if (order.SupplierName.Equals("KSPAI")) name[3]++;
                 else if (order.SupplierName.Equals("PPP")) name[4]++;
                 else if (order.SupplierName.Equals("TEI")) name[5]++;
+
+
+
+
+                if (order.SupplierName.Equals("GTI"))
+                {
+                    
+                    price[0] += order.UnitPrice;
+                }
+                else if (order.SupplierName.Equals("IFME")) price[1] = order.UnitPrice;
+                else if (order.SupplierName.Equals("KSPAI")) price[2] = order.UnitPrice;
+                else if (order.SupplierName.Equals("KHS")) price[3] = order.UnitPrice;
+                else if (order.SupplierName.Equals("PPP")) price[4] = order.UnitPrice;
+                else if (order.SupplierName.Equals("TEI")) price[5] = order.UnitPrice;
+
+
+             
+
             }
 
             // Supplier Value
-            float[] price = new float[] { 0, 0, 0, 0, 0, 0 };
-            foreach (Order order in list)
-            {
-                if (order.SupplierName.Equals("GTI")) price[0] += order.UnitPrice;
-                else if (order.SupplierName.Equals("IFME")) price[1] += order.UnitPrice;
-                else if (order.SupplierName.Equals("KHS")) price[2] += order.UnitPrice;
-                else if (order.SupplierName.Equals("KSPAI")) price[3] += order.UnitPrice;
-                else if (order.SupplierName.Equals("PPP")) price[4] += order.UnitPrice;
-                else if (order.SupplierName.Equals("TEI")) price[5] += order.UnitPrice;
-            }
+            
+            
+          
 
             if (x == 1)
             {
+                Array.Sort(name);
                 ViewData["Legend"] = "Orders by Suppliers Name";
                 ViewData["Colors"] = new[] { "violet", "green", "blue", "orange", "red","yellow" };
                 ViewData["Labels"] = new[] { "GTI", "IFME", "KHS", "KSPAI", "PPP","TEI" };

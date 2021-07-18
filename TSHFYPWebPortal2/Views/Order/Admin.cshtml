@@ -38,7 +38,7 @@
 
 <div>
 
-    <font size="1">
+    
         <table id="TableA" class="table">
             <thead>
                 <tr>
@@ -64,7 +64,7 @@
                     <th>Action</th>
             </thead>
             <tbody>
-    </font>
+    
 
 
     @foreach (DataRow row in Model)
@@ -110,16 +110,23 @@
 
             }
 
-            <td>
-                <a asp-controller="Order"
-                   asp-action="Delete"
-                   asp-route-id="@row["Pid"]"
-                   onclick="return confirm('Delete Order <@row["Descr"]>')">
-                    Delete
+        <td>
 
-                </a>
 
-            </td>
+            <a type="submit" value="Update" asp-controller="Order" 
+               asp-action="Update"
+               asp-route-id="@row["PId"]">Edit</a>
+
+            <a asp-controller="Order"
+               asp-action="Delete"
+               asp-route-id="@row["Pid"]"
+               
+               onclick="return confirm('Delete Order <@row["Descr"]>')">
+                Delete
+
+            </a>
+
+        </td>
 
         </tr>
 
