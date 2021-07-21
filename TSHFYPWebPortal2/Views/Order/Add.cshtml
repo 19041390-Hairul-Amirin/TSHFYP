@@ -12,15 +12,7 @@
 
 
 
-    <script language="javascript">
-        $(document).ready(function () {
-            $('#JSPerformDT')
-                .datetimepicker({
-                    format: 'YYYY-MM-DD',
-                    sideBySide: true
-                });
-        });
-    </script>
+   
 }
 
 @model Order
@@ -38,10 +30,7 @@
         <label class="control-label col-sm-2" for="OrderDate">Order Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="text"  asp-for="OrderDate" class="form-control" asp-format="{0:yyyy MM dd}" />
-                <div class="input-group-append" data-target="#JSPerformDT" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-calendar"></i> </div>
-                </div>
+                <input type="date"  asp-for="OrderDate" class="form-control"  />               
             </div>
         </div>
         <div class="col-sm-4">
@@ -54,10 +43,7 @@
         <label class="control-label col-sm-2" for="DueDate">Due Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="text"  asp-for="DueDate" class="form-control" asp-format="{0:yyyy MM dd}" />
-                <div class="input-group-append" data-target="#JSPerformDT" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-calendar"></i> </div>
-                </div>
+                <input type="date"  asp-for="DueDate" class="form-control"  />              
             </div>
         </div>
         <div class="col-sm-4">
@@ -69,10 +55,7 @@
         <label class="control-label col-sm-2" for="RevisedDate">Delivery Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="text"  asp-for="RevisedDate" class="form-control" asp-format="{0:yyyy MM dd}" />
-                <div class="input-group-append" data-target="#JSPerformDT" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fa fa-calendar"></i> </div>
-                </div>
+                <input type="date"  asp-for="RevisedDate" class="form-control"  />               
             </div>
         </div>
         <div class="col-sm-4">

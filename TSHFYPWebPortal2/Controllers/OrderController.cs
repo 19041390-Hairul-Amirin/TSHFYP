@@ -18,6 +18,10 @@ namespace TSHFYPWebPortal2.Controllers
     public class OrderController : Controller
     {
 
+       
+
+
+
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IWebHostEnvironment _webHostEnvironment;
         public OrderController(IHostingEnvironment environment, IWebHostEnvironment webHostEnvironment)
@@ -46,21 +50,26 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
-                 
 
-                    //to do : Save uniqueFileName  to your db table   
+
+                    TempData["Message"] = "Delivery Order Uploaded";
+                    TempData["MsgType"] = "success";
                 }
             }
 
                 // to do  : Return something
-                return RedirectToAction("UploadDO");
+                return RedirectToAction("Portal");
             }
             private string GetUniqueFileName(string fileName)
             {
+            
+                String username = User.Identity.Name;
+
                 fileName = Path.GetFileName(fileName);
                 return Path.GetFileNameWithoutExtension(fileName)
                           + "_"
-                          + Guid.NewGuid().ToString().Substring(0, 4)
+                          + username + "_"
+                          + Guid.NewGuid().ToString().Substring(0, 1)
                           + Path.GetExtension(fileName);
             }
 
@@ -191,7 +200,7 @@ namespace TSHFYPWebPortal2.Controllers
             {
                 string insert =
                     @"INSERT INTO PurchaseOrder1(OrderDate, DueDate, RevisedDate, PONum, PRNum, SupplierID, SupplierName, Payment, PartNum, Descr, JobNum, Currency, QTY, UOM, UnitPrice, AMT, TSHCMPONum, Request, Purchaser) VALUES
-                      ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')  ";
+                      ('{0:yyyy-MM-dd}','{1:yyyy-MM-dd}','{2:yyyy-MM-dd}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}')  ";
                 int result = DBUtl.ExecSQL(insert, ord.OrderDate, ord.DueDate, ord.RevisedDate, ord.PONum, ord.PRNum, ord.SupplierID, ord.SupplierName, ord.Payment, ord.PartNum, ord.Descr, ord.JobNum, ord.Currency, ord.Qty, ord.UOM, ord.UnitPrice, ord.AMT, ord.TSHCMPONUm, ord.Request, ord.Purchaser);
 
 
@@ -277,8 +286,8 @@ namespace TSHFYPWebPortal2.Controllers
             {
                 string edit =
                    @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status='{6}' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName, ord.Status);
                 if (res == 1)
                 {
                     TempData["Message"] = "Order Updated";
@@ -364,7 +373,7 @@ namespace TSHFYPWebPortal2.Controllers
                 int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
                 if (res == 1)
                 {
-                    TempData["Message"] = "Order Updated";
+                    TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
                     ord.Accepted = "Accepted";
                 }
@@ -384,6 +393,117 @@ namespace TSHFYPWebPortal2.Controllers
 
           
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult ViewOrder(int id)
+        {
+            string updatesql = @"SELECT * FROM PurchaseOrder1
+                               WHERE PId = {0}";
+            List<Order> lstorder = DBUtl.GetList<Order>(updatesql, id);
+            if (lstorder.Count == 1)
+            {
+                return View(lstorder[0]);
+            }
+            else
+            {
+                TempData["Message"] = "Order not found";
+                TempData["MsgType"] = "warning";
+                return RedirectToAction("Portal", "Order");
+            }
+
+        }
+
+
+
+        [HttpPost]
+        public IActionResult ViewOrder(Order ord)
+        {
+            string username = User.Identity.Name;
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("Accept");
+            }
+
+            else if (ord.SupplierName.Equals(username))
+            {
+                string edit =
+                   @"UPDATE PurchaseOrder1
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+                if (res == 1)
+                {
+                    TempData["Message"] = "Order Updated";
+                    TempData["MsgType"] = "success";
+                   
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("Portal", "Order");
+            }
+
+            return RedirectToAction("Portal", "Order");
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public JsonResult OpenPDFPath()
+        {
+            string PDFpath = "uploads/pdf/report_GTI_d.PDF";
+            return Json(PDFpath);
+        }
+
+
+        public FileResult OpenPDF()
+        {
+            string PDFpath = "wwwroot/uploads/report_GTI_d.PDF";
+            byte[] abc = System.IO.File.ReadAllBytes(PDFpath);
+            System.IO.File.WriteAllBytes(PDFpath, abc);
+            MemoryStream ms = new MemoryStream(abc);
+            return new FileStreamResult(ms, "application/pdf");
+        }
+
+
+       
+
+
+
 
 
 

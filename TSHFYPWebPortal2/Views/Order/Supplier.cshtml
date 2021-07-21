@@ -96,14 +96,17 @@ else if (User.IsInRole("manager"))
                     @*To check if order is accepted*@
                    @if (row["Status"].Equals("Accepted"))
                     {
-                        <td>@row["Status"]</td>
+                        <td>@row["Status"]  
+                            <a type="submit" value="Accepted" class="btn btn-outline-primary" asp-controller="Order"
+                               asp-action="ViewOrder"
+                               asp-route-id="@row["PId"]">View</a>
+                        </td>
                     }
                     else
                     {
                 <td>
-                    @row["Status"]
+                    @row["Status"] 
                     <a type="submit" value="Accept" class="btn btn-outline-primary" asp-controller="Order" 
-                       
                        asp-action="Accept"
                        asp-route-id="@row["PId"]">Accept</a>
 

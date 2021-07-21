@@ -13,15 +13,15 @@ namespace TSHFYPWebPortal2.Models
 
 
        
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
 
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime DueDate { get; set; }
 
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime RevisedDate { get; set; }
         public string PONum { get; set; }
         public string PRNum { get; set; }

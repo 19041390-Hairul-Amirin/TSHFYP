@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.PowerBI.Api;
+using Microsoft.PowerBI.Api.Models;
+using Microsoft.Rest;
+using Newtonsoft.Json.Linq;
 using TSHFYPWebPortal2.Models;
 
 namespace TSHFYPWebPortal2.Controllers
@@ -123,6 +128,11 @@ namespace TSHFYPWebPortal2.Controllers
             }
 
         }
+
+
+      
+
+
     }
 }
 //new string[] { "GTI", "IFME", "KHS", "KSPAI", "PPP", "TEI" };

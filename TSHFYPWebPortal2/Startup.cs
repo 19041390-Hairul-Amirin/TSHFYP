@@ -8,19 +8,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Configuration;
 
 namespace TSHFYPWebPortal2
 {
     public class Startup
     {
+
+      
+
+        public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+           
+
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options => {
                         options.LoginPath = "/Account/Login/";
                         options.AccessDeniedPath = "/Account/Forbidden/";
                     });
+
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
