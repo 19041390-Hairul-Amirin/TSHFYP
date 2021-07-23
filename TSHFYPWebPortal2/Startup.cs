@@ -9,18 +9,30 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
+using AppOwnsData.Models;
+using AppOwnsData.Services;
 
 namespace TSHFYPWebPortal2
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-      
 
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-           
+            services.AddControllersWithViews();
+
+
+            services.AddScoped(typeof(AadService))
+                   .AddScoped(typeof(PbiEmbedService));
+            // Loading appsettings.json in C# Model classes
+            services.Configure<AzureAd>(Configuration.GetSection("AzureAd"))
+                    .Configure<PowerBI>(Configuration.GetSection("PowerBI"));
 
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
