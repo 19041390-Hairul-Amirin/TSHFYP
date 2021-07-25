@@ -1,7 +1,7 @@
 ﻿<title> FYP </title>
 @section MoreScripts {
 
-    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/table.css" rel="stylesheet" />
 
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
 
@@ -23,7 +23,7 @@
 @*SCM/MANAGER VIEWS*@
 
 
-    <h2 style="text-align:center">@User.Identity.Name Portal </h2>
+<h2 style="text-align:center">@User.Identity.Name Portal </h2>
 
 
 <br />
@@ -37,7 +37,7 @@
 }
 
 <div>
-    <font size="1">
+    
         <table id="TableA" class="table">
             <thead>
                 <tr>
@@ -63,7 +63,7 @@
             </thead>
 
             <tbody>
-    </font>
+   
 
     @foreach (DataRow row in Model)
     {

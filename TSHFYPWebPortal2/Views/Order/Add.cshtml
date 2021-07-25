@@ -3,7 +3,7 @@
 
 @section MoreScripts {
 
-    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/table.css" rel="stylesheet" />
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/moment/moment.min.js"></script>
     <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
 
 
 
-   
+
 }
 
 @model Order
@@ -30,7 +30,7 @@
         <label class="control-label col-sm-2" for="OrderDate">Order Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="date"  asp-for="OrderDate" class="form-control"  />               
+                <input type="date" asp-for="OrderDate" class="form-control" />
             </div>
         </div>
         <div class="col-sm-4">
@@ -43,7 +43,7 @@
         <label class="control-label col-sm-2" for="DueDate">Due Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="date"  asp-for="DueDate" class="form-control"  />              
+                <input type="date" asp-for="DueDate" class="form-control" />
             </div>
         </div>
         <div class="col-sm-4">
@@ -55,7 +55,7 @@
         <label class="control-label col-sm-2" for="RevisedDate">Delivery Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="date"  asp-for="RevisedDate" class="form-control"  />               
+                <input type="date" asp-for="RevisedDate" class="form-control" />
             </div>
         </div>
         <div class="col-sm-4">

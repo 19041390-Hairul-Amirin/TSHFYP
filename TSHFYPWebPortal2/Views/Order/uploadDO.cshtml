@@ -1,4 +1,4 @@
-﻿<link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+﻿<link href="~/css/table.css" rel="stylesheet" />
 <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
 <script src="~/lib/moment/moment.min.js"></script>
 <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -14,38 +14,43 @@
 <br />
 
 @model UploadDO
-    <body>
-        
-        <form asp-action="UploadDO" enctype="multipart/form-data">
-            <div class="form-group row">
-                <label class="control-label col-sm-2" asp-for="Filename">Insert File here: </label>
-              
-                <div class="col-sm-5">
-                    <input asp-for="File"  />
-                </div>
+<body>
 
-                <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-6">
-                        <input type="submit" value="Upload" class="btn btn-outline-primary" />
+    <form asp-action="UploadDO" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label class="control-label col-sm-2" asp-for="Filename">Insert File here: </label>
+
+            <div class="col-sm-5">
+                <input asp-for="File" />
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-6">
+                    <input type="submit" value="Upload" class="btn btn-outline-primary" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-6">
+                <input type="button" value="Back" class="btn btn-outline-primary" onclick="history.back()" />
+            </div>
+        </div>
+
+        @if (ViewData["Message"] != null)
+        {
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-6">
+                    <div class="alert alert-@ViewData["MsgType"]">
+                        ViewData["Message"]
                     </div>
                 </div>
             </div>
+        }
 
+    </form>
 
-            @if (ViewData["Message"] != null)
-            {
-                <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-6">
-                        <div class="alert alert-@ViewData["MsgType"]">
-                            ViewData["Message"]
-                        </div>
-                    </div>
-                </div>
-            }
-
-        </form>
-
-    </body>
+</body>
 
 
 

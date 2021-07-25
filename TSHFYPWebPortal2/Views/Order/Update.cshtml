@@ -1,7 +1,7 @@
 ﻿
 @section MoreScripts {
 
-    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/table.css" rel="stylesheet" />
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/moment/moment.min.js"></script>
     <link href="~/lib/dtpicker/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -10,7 +10,7 @@
 
 
 
-   
+
 }
 
 @model Order
@@ -85,10 +85,10 @@
 
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="Status">Status: </label>
-        <div class="col-sm-5">          
+        <div class="col-sm-5">
             <select id="Status" name="Status" input asp-for="Status" class="form-control">
                 <option value="Accepted">Accepted</option>
-                <option value="">Not Accepted</option>              
+                <option value="">Not Accepted</option>
             </select>
         </div>
         <div class="col-sm-4">
