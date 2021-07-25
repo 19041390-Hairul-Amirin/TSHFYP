@@ -245,7 +245,25 @@ namespace TSHFYPWebPortal2.Controllers
             }
             return RedirectToAction("Portal");
         }
+        #region "DeleteUser"
+        public IActionResult DeleteUser(string id)
+        {
+            string delete = "DELETE FROM TSHUsers WHERE UserId='{0}'";
+            int res = DBUtl.ExecSQL(delete, id);
+            if (res == 1)
+            {
+                TempData["Message"] = "User Record Deleted";
+                TempData["MsgType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = DBUtl.DB_Message;
+                TempData["MsgType"] = "danger";
+            }
 
+            return RedirectToAction("UserList");
+        }
+        #endregion
 
 
         [HttpGet]

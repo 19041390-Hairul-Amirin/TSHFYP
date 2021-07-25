@@ -98,24 +98,6 @@ namespace TSHFYPWebPortal2.Controllers
             return View(list);
         }
 
-        [Authorize(Roles = "manager")]
-        public IActionResult Delete(string id)
-        {
-            string delete = "DELETE FROM TSHUsers WHERE UserId='{0}'";
-            int res = DBUtl.ExecSQL(delete, id);
-            if (res == 1)
-            {
-                TempData["Message"] = "User Record Deleted";
-                TempData["MsgType"] = "success";
-            }
-            else
-            {
-                TempData["Message"] = DBUtl.DB_Message;
-                TempData["MsgType"] = "danger";
-            }
-
-            return RedirectToAction("Users");
-        }*/
 
         [AllowAnonymous]
         public IActionResult Register()
@@ -162,7 +144,7 @@ namespace TSHFYPWebPortal2.Controllers
                 return View("UserRegister");
             }
         }
-
+*/
         [AllowAnonymous]
         public IActionResult VerifyUserID(string userId)
         {
