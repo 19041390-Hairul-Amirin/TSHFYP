@@ -13,6 +13,9 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 
+using System.Net;
+using System.Net.Mail;
+
 namespace TSHFYPWebPortal2.Controllers
 {
     public class OrderController : Controller
@@ -310,7 +313,6 @@ namespace TSHFYPWebPortal2.Controllers
                 {
                     TempData["Message"] = "Order Updated";
                     TempData["MsgType"] = "success";
-                   
                 }
                 else
                 {
@@ -319,13 +321,6 @@ namespace TSHFYPWebPortal2.Controllers
                 }
                 return RedirectToAction("Portal");
             }
-
-
-
-            
-
-
-
 
         }
 
@@ -341,17 +336,7 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-         [HttpGet]
+        [HttpGet]
         public IActionResult Accept(int id)
         {
             string updatesql = @"SELECT * FROM PurchaseOrder1
@@ -389,8 +374,72 @@ namespace TSHFYPWebPortal2.Controllers
                    @"UPDATE PurchaseOrder1
                     SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status ='Accepted' WHERE PId={0}";
                 int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName);
+
                 if (res == 1)
                 {
+
+                    List<TSHUsers> list = DBUtl.GetList<TSHUsers>("SELECT * FROM TSHUsers");
+                    foreach (TSHUsers users in list)
+                    {
+
+                        if (username.Equals(users.UserId))
+                        {
+                            try
+                            {
+                                // Credentials
+                                var credentials = new NetworkCredential("FeedbackTSH@gmail.com", "FYPTsH!1");
+
+                                // Mail message to clients
+                                var mail = new MailMessage()
+                                {
+                                    From = new MailAddress("FeedbackTSH@gmail.com"),
+                                    Subject = "DoNotReply-FeedbackTSH@gmail.com",
+                                    Body = "PURCHASE ORDER ACCEPTED SUCCESSFULLY </br> " +
+                                    "This is an email of acknowledgement to confirmed that you have accepted the Purchase Order </br>" +
+                                    " Thank You for your response!"
+                                };
+
+
+                                // Mail message to TSH live NOT DONE
+                                var mail2Me = new MailMessage()
+                                {
+                                    From = new MailAddress(users.Email),
+                                    Subject = users.FullName + ", Purchase Order Acknowledgement",
+                                    Body = users.UserId + " have accepted the Order Confirmation"
+                                };
+
+                                mail.IsBodyHtml = true;
+                                mail.To.Add(new MailAddress(users.Email));
+
+                                mail2Me.IsBodyHtml = true;
+                                mail2Me.To.Add(new MailAddress("FeedbackTSH@gmail.com"));
+
+                                // Smtp client
+                                var client = new SmtpClient()
+                                {
+                                    Port = 587,
+                                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                                    UseDefaultCredentials = false,
+                                    Host = "smtp.gmail.com",
+                                    EnableSsl = true,
+                                    Credentials = credentials
+                                };
+
+                                client.Send(mail);
+                                client.Send(mail2Me);
+
+                                //return "Email Sent Successfully!";
+                            }
+                            catch (System.Exception e)
+                            {
+                                //return e.Message;
+                            }
+
+                            return RedirectToAction("Portal", "Order");
+                        }
+                    }
+
+
                     TempData["Message"] = "Order Accepted";
                     TempData["MsgType"] = "success";
                     ord.Accepted = "Accepted";
