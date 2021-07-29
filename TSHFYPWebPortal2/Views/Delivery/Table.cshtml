@@ -1,0 +1,63 @@
+﻿@section MoreScripts {
+
+    <link href="~/css/table.css" rel="stylesheet" />
+
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#TableA').DataTable({
+                ordering: true,
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}
+
+@model DataRowCollection
+
+<div>
+
+
+    <table id="TableA" class="table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>File Type</th>
+                <th>Files Data</th>
+                <th>Created On</th>
+                <th>View</th>
+               
+        </thead>
+        <tbody>
+
+
+
+            @foreach (DataRow row in Model)
+            {
+            <tr>
+                <td>@row["Name"]</td>
+                <td>@row["FileType"]</td>
+                <td>@row["DataFiles"]</td>
+                <td>@row["CreatedOn"]</td>
+                <td>
+                    
+
+                                <a type="submit" value="View" class="btn btn-outline-primary" asp-controller="Delivery"
+                                   asp-action="ViewDO"
+                                   asp-route-id="@row["DocumentId"]">View</a>
+                            </td>
+
+
+            </tr>
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
+

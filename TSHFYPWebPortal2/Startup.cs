@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using AppOwnsData.Models;
 using AppOwnsData.Services;
+using TSHFYPWebPortal2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TSHFYPWebPortal2
 {
@@ -43,7 +45,10 @@ namespace TSHFYPWebPortal2
                     });
 
 
-            
+            //Getting Connection String from appsettings.json
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

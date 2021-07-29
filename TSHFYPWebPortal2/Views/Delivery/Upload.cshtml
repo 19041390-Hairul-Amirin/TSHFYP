@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/login/css/main.css">
+
+
+
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-90 p-b-30">
+
+
+
+
+
+            <h1 class="login100-form-title p-b-40" >Upload Delivery Order</h1>
+            <div class="row">
+                <div class="text-center p-t-55 p-b-30">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Delivery" asp-action="Upload">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <p>Upload file</p>
+                                <input class="form-control" name="files" type="file" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="container-login100-form-btn">
+                                <button class="login100-form-btn" type="submit" value="Upload">
+                                    Upload
+                                </button>
+                            </div>
+                            <div class="container-login100-form-btn">
+                                
+                                    <button type="button" value="Back" class="login100-form-btn" onclick="history.back()" >
+                                Back
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
