@@ -149,15 +149,6 @@ namespace TSHFYPWebPortal2.Controllers
             }
         }
 
-     
-
-       
-
-        public IActionResult UserList()
-        {
-            DataTable dt = DBUtl.GetTable("SELECT * FROM TSHUsers");
-            return View("UserList", dt.Rows);
-        }
 
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
@@ -167,13 +158,6 @@ namespace TSHFYPWebPortal2.Controllers
                 return Redirect(returnUrl);
             return RedirectToAction("About");
         }
-
-
-
-
-
-
-
 
         public ActionResult Cancel()
         {
@@ -248,26 +232,6 @@ namespace TSHFYPWebPortal2.Controllers
             }
             return RedirectToAction("Portal");
         }
-        #region "DeleteUser"
-        public IActionResult DeleteUser(string id)
-        {
-            string delete = "DELETE FROM TSHUsers WHERE UserId='{0}'";
-            int res = DBUtl.ExecSQL(delete, id);
-            if (res == 1)
-            {
-                TempData["Message"] = "User Record Deleted";
-                TempData["MsgType"] = "success";
-            }
-            else
-            {
-                TempData["Message"] = DBUtl.DB_Message;
-                TempData["MsgType"] = "danger";
-            }
-
-            return RedirectToAction("UserList");
-        }
-        #endregion
-
 
         [HttpGet]
         public IActionResult Update(int id)
@@ -289,20 +253,16 @@ namespace TSHFYPWebPortal2.Controllers
 
         }
 
-
         [HttpPost]
         public IActionResult Update(Order ord)
         {
-            
-            
+
             if (!ModelState.IsValid)
             {
                 ViewData["Message"] = "Invalid Input";
                 ViewData["MsgType"] = "warning";
                 return View("Update");
             }
-
-            
             else 
             {
                 string edit =
@@ -323,18 +283,6 @@ namespace TSHFYPWebPortal2.Controllers
             }
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         [HttpGet]
         public IActionResult Accept(int id)

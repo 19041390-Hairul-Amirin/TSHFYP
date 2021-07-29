@@ -59,11 +59,11 @@
             <td>
 
 
-                <a type="submit" value="Update" asp-controller="Order"
+                <a type="submit" value="Update" asp-controller="Account"
                    asp-action="UpdateUserList"
                    asp-route-id="@row["UserId"]">Edit</a>
 
-                <a asp-controller="Order"
+                <a asp-controller="Account"
                    asp-action="DeleteUser"
                    asp-route-id="@row["UserId"]"
                    onclick="return confirm('Delete User <@row["UserID"]>')">
@@ -72,8 +72,8 @@
                 </a>
 
             </td>
-        }
-            </tbody>
+            }
+         </tbody>
 
         </table>
     </div>

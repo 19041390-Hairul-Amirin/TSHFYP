@@ -39,13 +39,6 @@ namespace TSHFYPWebPortal2.Controllers
         [HttpPost]
         public IActionResult Login(UserLogin user, TSHUsers name)
         {
-
-
-
-
-
-
-
             if (!AuthenticateUser(user.UserID, user.Password, out ClaimsPrincipal principal))
             {
                 ViewData["Message"] = "Incorrect User ID or Password";
@@ -84,21 +77,28 @@ namespace TSHFYPWebPortal2.Controllers
                 return Redirect(returnUrl);
             return RedirectToAction(REDIRECT_ACTN, REDIRECT_CNTR);
         }
-/*
-        [AllowAnonymous]
-        public IActionResult Forbidden()
+        /*
+                [AllowAnonymous]
+                public IActionResult Forbidden()
+                {
+                    return View();
+                }
+
+                [Authorize(Roles = "manager")]
+                public IActionResult Users()
+                {
+                    List<TSHUsers> list = DBUtl.GetList<TSHUsers>("SELECT * FROM TSHUsers WHERE UserRole='member' ");
+                    return View(list);
+                }
+        */
+
+        public IActionResult UserList()
         {
-            return View();
+            DataTable dt = DBUtl.GetTable("SELECT * FROM TSHUsers");
+            return View("UserList", dt.Rows);
         }
 
-        [Authorize(Roles = "manager")]
-        public IActionResult Users()
-        {
-            List<TSHUsers> list = DBUtl.GetList<TSHUsers>("SELECT * FROM TSHUsers WHERE UserRole='member' ");
-            return View(list);
-        }
-
-
+        #region "User Registration"
         [AllowAnonymous]
         public IActionResult Register()
         {
@@ -122,29 +122,91 @@ namespace TSHFYPWebPortal2.Controllers
                         VALUES('{0}', HASHBYTES('SHA1','{1}'), '{2}', '{3}', 'member')";
                 if (DBUtl.ExecSQL(insert, usr.UserId, usr.UserPw, usr.FullName, usr.Email) == 1)
                 {
-                    string template = @"Hi {0},<br/><br/>
-                               Welcome to TSH!
-                               Your userid is <b>{1}</b> and password is <b>{2}</b>.
-                               <br/><br/>Manager";
-                    string title = "Registration Successul - Welcome";
-                    string message = String.Format(template, usr.FullName, usr.UserId, usr.UserPw);
-                    string result;
-
-                    if (EmailUtl.Contact(usr.Email, title, message, out result))
-                    {
-                        ViewData["Message"] = "User Successfully Registered";
-                        ViewData["MsgType"] = "success";
-                    }
-                    else
-                    {
-                        ViewData["Message"] = result;
-                        ViewData["MsgType"] = "warning";
-                    }
+                    ViewData["Message"] = "User Successfully Registered";
+                    ViewData["MsgType"] = "success";
+                    return RedirectToAction("Portal", "Order");
                 }
-                return View("UserRegister");
+                else
+                {
+                    ViewData["Message"] = DBUtl.DB_Message;
+                    ViewData["MsgType"] = "danger";
+                    return View("UserRegister");
+                }
             }
         }
-*/
+        #endregion
+
+        #region "DeleteUser"
+        public IActionResult DeleteUser(string id)
+        {
+            string delete = "DELETE FROM TSHUsers WHERE UserId='{0}'";
+            int res = DBUtl.ExecSQL(delete, id);
+            if (res == 1)
+            {
+                TempData["Message"] = "User Record Deleted";
+                TempData["MsgType"] = "success";
+            }
+            else
+            {
+                TempData["Message"] = DBUtl.DB_Message;
+                TempData["MsgType"] = "danger";
+            }
+
+            return RedirectToAction("UserList");
+        }
+        #endregion
+
+        #region "Update User"
+        [HttpGet]
+        public IActionResult UpdateUserList(string id)
+        {
+            string updatesql = @"SELECT * FROM TSHUsers
+                                WHERE UserId = '{0}'";
+            List<TSHUsers> user = DBUtl.GetList<TSHUsers>(updatesql, id);
+            if (user.Count == 1)
+            {
+                return View(user[0]);
+            }
+            else
+            {
+                TempData["Message"] = "Account not found";
+                TempData["MsgType"] = "warning";
+                return RedirectToAction("UserList");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUserList(TSHUsers usr)
+        {
+            ModelState.Remove("UserPw2");
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["Message"] = "Invalid Input";
+                ViewData["MsgType"] = "warning";
+                return View("UpdateUserList");
+            }
+            else
+            {
+                string edit =
+                   @"UPDATE TSHUsers
+                    SET UserPw='{1}', FullName='{2}',Email='{3}',UserRole='{4}' WHERE UserId='{0}'";
+
+                if (DBUtl.ExecSQL(edit, usr.UserPw, usr.FullName, usr.Email, usr.UserRole) == 1)
+                {
+                    TempData["Message"] = "User Updated";
+                    TempData["MsgType"] = "success";
+                }
+                else
+                {
+                    TempData["Message"] = DBUtl.DB_Message;
+                    TempData["MsgType"] = "danger";
+                }
+                return RedirectToAction("UserList");
+            }
+        }
+        #endregion
+
         [AllowAnonymous]
         public IActionResult VerifyUserID(string userId)
         {
