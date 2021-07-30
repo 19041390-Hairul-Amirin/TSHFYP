@@ -25,59 +25,8 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
-        private readonly IHostingEnvironment hostingEnvironment;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public OrderController(IHostingEnvironment environment, IWebHostEnvironment webHostEnvironment)
-        {
-            hostingEnvironment = environment;
-            _webHostEnvironment = webHostEnvironment;
-        }
 
-        [HttpPost]
-        public IActionResult UploadDO(UploadDO model)
-        {
-
-            if (ModelState.IsValid)
-            {
-
-
-
-
-                // do other validations on your model as needed
-                if (model.File != null)
-                {
-                    var uniqueFileName = GetUniqueFileName(model.File.FileName);
-                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
-                    var filePath = Path.Combine(uploads, uniqueFileName);
-                    model.File.CopyTo(new FileStream(filePath, FileMode.Create));
-
-
-
-
-
-                    TempData["Message"] = "Delivery Order Uploaded";
-                    TempData["MsgType"] = "success";
-                }
-            }
-
-                // to do  : Return something
-                return RedirectToAction("Portal");
-            }
-            private string GetUniqueFileName(string fileName)
-            {
-            
-                String username = User.Identity.Name;
-
-                fileName = Path.GetFileName(fileName);
-                return Path.GetFileNameWithoutExtension(fileName)
-                          + "_"
-                          + username + "_"
-                          + Guid.NewGuid().ToString().Substring(0, 1)
-                          + Path.GetExtension(fileName);
-            }
-
-
-        
+      
 
 
 
@@ -90,10 +39,7 @@ namespace TSHFYPWebPortal2.Controllers
         {
             return View();
         }
-        public IActionResult UploadDO()
-        {
-            return View();
-        }
+       
 
 
 
@@ -101,43 +47,43 @@ namespace TSHFYPWebPortal2.Controllers
         [HttpPost]
 
 
-  
 
 
-        //Different views for each supplier
-        //They can only view 
+        //---------------------------------------------------------------------//
+        //Each user will have a seperate view when logged in
+
 
         [HttpGet]
         [Authorize]
         public IActionResult Portal()
         {
-            if (User.IsInRole("Supplier"))
+            if (User.IsInRole("Supplier")) //view: Supplier.cshtml
             {
                 string username = User.Identity.Name;
                 DataTable dt = DBUtl.GetTable($"SELECT * FROM PurchaseOrder1 WHERE SupplierName='{username}'");
                 return View("Supplier", dt.Rows); ;
             }
-            else if (User.IsInRole("admin"))
+            else if (User.IsInRole("admin")) //view: Admin.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Admin", dt.Rows); ;
             }
-            else if (User.IsInRole("purchaser"))
+            else if (User.IsInRole("purchaser")) //view: Purchaser.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Purchaser", dt.Rows); ;
             }
-            else if (User.IsInRole("Warehouse"))
+            else if (User.IsInRole("Warehouse")) //view: Warehouse.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Warehouse", dt.Rows); ;
             }
-            else if (User.IsInRole("account"))
+            else if (User.IsInRole("account")) //view: Account.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Account", dt.Rows); ;
             }
-            else if (User.IsInRole("manager"))
+            else if (User.IsInRole("manager")) //view: SCM.html
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("SCM", dt.Rows); ;
@@ -150,6 +96,11 @@ namespace TSHFYPWebPortal2.Controllers
         }
 
 
+
+
+
+        //---------------------------------------------------------------------//
+        //To logoff. Redirect to about page
         [Authorize]
         public IActionResult Logoff(string returnUrl = null)
         {
@@ -168,6 +119,11 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
+
+
+        //---------------------------------------------------------------------//
+        //Method to add purchase order. View: Add.cshtml
+        //Admin only
         [HttpGet]
         public IActionResult Add()
         {
@@ -206,6 +162,9 @@ namespace TSHFYPWebPortal2.Controllers
         }
 
 
+        //---------------------------------------------------------------------//
+        // Method to delete purchase order from table. View: Admin.cshtml
+        //Admin Only
         public IActionResult Delete(int id)
         {
             string select = @"SELECT * FROM PurchaseOrder1 WHERE PId={0}";
@@ -233,6 +192,11 @@ namespace TSHFYPWebPortal2.Controllers
             return RedirectToAction("Portal");
         }
 
+
+
+        //---------------------------------------------------------------------//
+        //Method to update purchase order. View: Update.cshtml
+        //admin only
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -267,8 +231,8 @@ namespace TSHFYPWebPortal2.Controllers
             {
                 string edit =
                    @"UPDATE PurchaseOrder1
-                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status='{6}' WHERE PId={0}";
-                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName, ord.Status);
+                    SET PONum='{1}', Descr='{2}',OrderDate='{3:yyyy-MM-dd}',RevisedDate='{4:yyyy-MM-dd}', SupplierName='{5}', Status='{6}',JobNum='{7}' WHERE PId={0}";
+                int res = DBUtl.ExecSQL(edit, ord.PId, ord.PONum, ord.Descr, ord.OrderDate, ord.RevisedDate, ord.SupplierName, ord.Status,ord.JobNum);
                 if (res == 1)
                 {
                     TempData["Message"] = "Order Updated";
@@ -284,6 +248,17 @@ namespace TSHFYPWebPortal2.Controllers
 
         }
 
+
+
+
+
+
+
+
+        //---------------------------------------------------------------------//
+        //Method to accept order. View: Accept.cshtml
+        //For suppliers only
+        //Suppliers not allowed to update or edit purchase order.
         [HttpGet]
         public IActionResult Accept(int id)
         {
@@ -302,8 +277,6 @@ namespace TSHFYPWebPortal2.Controllers
             }
 
         }
-
-
         
         [HttpPost]
         public IActionResult Accept(Order ord)
@@ -422,6 +395,10 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
+        //---------------------------------------------------------------------//
+        // Method to view order after order is accepted
+        //Order must be accepted to upload delivery order
+        //Delivery order methods will be ibn Delivery Controller
 
         [HttpGet]
         public IActionResult ViewOrder(int id)
@@ -498,21 +475,7 @@ namespace TSHFYPWebPortal2.Controllers
 
 
 
-        public JsonResult OpenPDFPath()
-        {
-            string PDFpath = "uploads/pdf/report_GTI_d.PDF";
-            return Json(PDFpath);
-        }
-
-
-        public FileResult OpenPDF()
-        {
-            string PDFpath = "wwwroot/uploads/report_GTI_d.PDF";
-            byte[] abc = System.IO.File.ReadAllBytes(PDFpath);
-            System.IO.File.WriteAllBytes(PDFpath, abc);
-            MemoryStream ms = new MemoryStream(abc);
-            return new FileStreamResult(ms, "application/pdf");
-        }
+       
 
 
        

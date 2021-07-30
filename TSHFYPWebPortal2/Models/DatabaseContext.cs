@@ -11,6 +11,8 @@ namespace TSHFYPWebPortal2.Models
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
+
+        
         public DbSet<Delivery> files { get; set; }
 }
     

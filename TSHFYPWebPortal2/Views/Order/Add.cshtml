@@ -30,7 +30,7 @@
         <label class="control-label col-sm-2" for="OrderDate">Order Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="date" asp-for="OrderDate" class="form-control" />
+                <input type="date" asp-for="OrderDate" class="form-control" required/>
             </div>
         </div>
         <div class="col-sm-4">
@@ -55,7 +55,7 @@
         <label class="control-label col-sm-2" for="RevisedDate">Delivery Date:</label>
         <div class="col-sm-5">
             <div class="input-group date" id="JSPerformDT" data-target-input="nearest">
-                <input type="date" asp-for="RevisedDate" class="form-control" />
+                <input type="date" asp-for="RevisedDate" class="form-control" required />
             </div>
         </div>
         <div class="col-sm-4">
@@ -112,7 +112,7 @@
     <div class="form-group row">
         <label class="control-label col-sm-2" asp-for="Payment">Payment: </label>
         <div class="col-sm-5">
-            <input asp-for="Payment" class="form-control" />
+            <input asp-for="Payment" class="form-control" required />
         </div>
         <div class="col-sm-4">
             <span asp-validation-for="Payment" class="text-danger"></span>
@@ -270,7 +270,7 @@
         <div class="form-group row">
             <div class="offset-sm-2 col-sm-6">
                 <div class="alert alert-@ViewData["MsgType"]">
-                    ViewData["Message"]
+                    @ViewData["Message"]
                 </div>
             </div>
         </div>

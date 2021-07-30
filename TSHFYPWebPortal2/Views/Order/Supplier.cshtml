@@ -21,15 +21,10 @@
 
 @model DataRowCollection
 
-@if (User.IsInRole("Supplier"))
-{
+
     <h2 style="text-align:center">@User.Identity.Name 's Purchase Orders </h2>
-}
-else if (User.IsInRole("manager"))
-{
-    <h2 style="text-align:center"> All supplier's Purchase Orders </h2>
-}
-<br />
+
+
 
 @if (TempData["Message"] != null)
 {
@@ -49,7 +44,6 @@ else if (User.IsInRole("manager"))
                 <th>PO Number</th>
                 <th>Order Date</th>
                 <th>Payment Term</th>
-
                 <th>Part Number</th>
                 <th>PR Number</th>
                 <th>Description</th>

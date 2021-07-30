@@ -17,6 +17,15 @@
 
 @model DataRowCollection
 
+
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@TempData["MsgType"]">
+        @TempData["Message"]
+    </div>
+}
 <div>
 
 
@@ -25,10 +34,10 @@
             <tr>
                 <th>File Name</th>
                 <th>File Type</th>
-                <th>Files Data</th>
-                <th>Created On</th>
-                <th>View</th>
                
+                <th>Created On</th>
+                <th>Action</th>
+
         </thead>
         <tbody>
 
@@ -36,21 +45,33 @@
 
             @foreach (DataRow row in Model)
             {
-            <tr>
-                <td>@row["Name"]</td>
-                <td>@row["FileType"]</td>
-                <td>@row["DataFiles"]</td>
-                <td>@row["CreatedOn"]</td>
-                <td>
+                <tr>
+                    <td>@row["Name"]</td>
+                    <td>@row["FileType"]</td>
                     
-
-                                <a type="submit" value="View" class="btn btn-outline-primary" asp-controller="Delivery"
-                                   asp-action="ViewDO"
-                                   asp-route-id="@row["DocumentId"]">View</a>
-                            </td>
+                    <td>@row["CreatedOn"]</td>
+                    <td>
 
 
-            </tr>
+                        <a type="submit" value="View" asp-controller="Delivery"
+                           asp-action="ViewDO"
+                           asp-route-id="@row["DocumentId"]">View</a>
+                        <br />
+
+                        @if (User.IsInRole("admin"))
+                        {
+                            <a asp-controller="Delivery"
+                               asp-action="Delete"
+                               asp-route-id="@row["DocumentId"]"
+                               onclick="return confirm('Delete Order <@row["Name"]>')">
+                                Delete
+
+                            </a>
+                        }
+                    </td>
+
+
+                </tr>
 
 
             }

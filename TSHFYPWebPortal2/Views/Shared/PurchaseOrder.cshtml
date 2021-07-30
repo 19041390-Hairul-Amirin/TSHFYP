@@ -19,40 +19,44 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Account" asp-action="UserList">List of Users</a>
             </li>
-          
+
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    
+
                     Delivery Order
                 </a>
                 <div class="dropdown-menu">
-                    <a class="nav-link" asp-controller="Delivery" asp-action="Upload">Upload Delivery Order</a>
-                    <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
-                    
+                    <a style="color:black" class="nav-link" asp-controller="Delivery" asp-action="Upload">Upload Delivery Order</a>
+                    <a style="color:black" class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
+
                 </div>
-                </li>
-                }
+            </li>
+        }
 
+        @if (User.IsInRole("Supplier"))
+        {<li class="nav-item">
+                <a class="nav-link" asp-controller="Order" asp-action="Portal">Orders</a>
+            </li>
+        }
 
-
-                <!--DashBoard-->
-                @if (User.IsInRole("manager") || (User.IsInRole("admin")))
-                {
+            <!--DashBoard-->
+            @if (User.IsInRole("manager") || (User.IsInRole("admin")))
+            {
                 <li class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <a class="nav-link" asp-controller="Home" asp-action="Index">
                         DashBoard
                     </a>
                 </li>
-                }
-                @if (User.IsInRole("Warehouse"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
-                    </li>
-                }
-            </ul>
+            }
+            @if (User.IsInRole("Warehouse"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
+                </li>
+            }
+        </ul>
 
 
     <ul class="nav navbar-nav ml-auto">
