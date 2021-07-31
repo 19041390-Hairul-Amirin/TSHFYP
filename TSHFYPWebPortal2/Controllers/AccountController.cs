@@ -50,7 +50,7 @@ namespace TSHFYPWebPortal2.Controllers
                 HttpContext.SignInAsync(
                    CookieAuthenticationDefaults.AuthenticationScheme,
                    principal);
-                string select = $"SELECT * FROM TSHUsers WHERE FullName='{user.UserID}'";
+                string select = $"SELECT * FROM TSHUsers WHERE UserId='{user.UserID}'";
                 if (DBUtl.GetTable(select).Rows.Count > 0)
                 {
                     if (TempData["returnUrl"] != null)
@@ -190,9 +190,9 @@ namespace TSHFYPWebPortal2.Controllers
             {
                 string edit =
                    @"UPDATE TSHUsers
-                    SET UserPw='{1}', FullName='{2}',Email='{3}',UserRole='{4}' WHERE UserId='{0}'";
+                    SET userPw=HASHBYTES('SHA1','{1}'), FullName='{2}',Email='{3}',UserRole='{4}' WHERE UserId='{0}'";
 
-                if (DBUtl.ExecSQL(edit, usr.UserPw, usr.FullName, usr.Email, usr.UserRole) == 1)
+                if (DBUtl.ExecSQL(edit,usr.UserId, usr.UserPw, usr.FullName, usr.Email, usr.UserRole) == 1)
                 {
                     TempData["Message"] = "User Updated";
                     TempData["MsgType"] = "success";
