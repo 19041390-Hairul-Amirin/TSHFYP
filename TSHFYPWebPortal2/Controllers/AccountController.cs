@@ -119,8 +119,8 @@ namespace TSHFYPWebPortal2.Controllers
             {
                 string insert =
                    @"INSERT INTO TSHUsers(UserId, UserPw, FullName, Email, UserRole) 
-                        VALUES('{0}', HASHBYTES('SHA1','{1}'), '{2}', '{3}', 'member')";
-                if (DBUtl.ExecSQL(insert, usr.UserId, usr.UserPw, usr.FullName, usr.Email) == 1)
+                        VALUES('{0}', HASHBYTES('SHA1','{1}'), '{2}', '{3}', '{4}')";
+                if (DBUtl.ExecSQL(insert, usr.UserId, usr.UserPw, usr.FullName, usr.Email, usr.UserRole) == 1)
                 {
                     ViewData["Message"] = "User Successfully Registered";
                     ViewData["MsgType"] = "success";
