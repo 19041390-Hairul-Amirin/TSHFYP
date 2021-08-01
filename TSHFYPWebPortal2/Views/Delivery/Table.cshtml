@@ -58,7 +58,7 @@
                            asp-route-id="@row["DocumentId"]">View</a>
                         <br />
 
-                        @if (User.IsInRole("admin"))
+                        @if (User.IsInRole("Admin"))
                         {
                             <a asp-controller="Delivery"
                                asp-action="Delete"

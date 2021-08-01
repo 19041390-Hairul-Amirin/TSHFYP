@@ -100,7 +100,7 @@ namespace TSHFYPWebPortal2.Controllers
 
         //---------------------------------------------------------------------//
         //To display all uploaded delivery orders. View: Table.cshtml
-        //Only Warehouse and admin user can view delivery order
+        //Only Warehouse, purchaser and admin user can view delivery order
 
         public IActionResult Table()
         {

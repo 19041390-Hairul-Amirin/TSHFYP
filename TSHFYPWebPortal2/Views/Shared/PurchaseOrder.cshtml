@@ -4,11 +4,12 @@
 
         @if (User.IsInRole("Admin"))  //Admin view
         {
-         
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for purchase Orders views*@
 
-                   Purchase Order
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    @*Dropdown for purchase Orders views*@
+
+                    Purchase Order
                 </a>
                 <div class="dropdown-menu">
                     <a style="color:black" class="nav-link" asp-controller="Order" asp-action="Portal">View Purchase Orders</a>
@@ -18,7 +19,8 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for user views*@
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    @*Dropdown for user views*@
 
                     Users
                 </a>
@@ -30,7 +32,8 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for Delivery Order views*@
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    @*Dropdown for Delivery Order views*@
 
                     Delivery Order
                 </a>
@@ -39,6 +42,16 @@
                     <a style="color:black" class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
 
                 </div>
+            </li>
+        }
+        @if (User.IsInRole("Purchaser") || (User.IsInRole("Warehouse")) || (User.IsInRole("Manager")))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Delivery" asp-action="table">View Delivery Orders </a>
+                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Order" asp-action="Portal">View Purchase Orders</a>
             </li>
         }
 
@@ -59,12 +72,7 @@
                 </a>
             </li>
         }
-        @if (User.IsInRole("Warehouse") || (User.IsInRole("Manager")))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
-            </li>
-        }
+
     </ul>
 
 
