@@ -2,27 +2,35 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
 
-        @if (User.IsInRole("manager") || (User.IsInRole("admin")))
+        @if (User.IsInRole("Admin"))  //Admin view
         {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Order" asp-action="Portal">Purchase Order</a>
-            </li>
-        }
-        @if (User.IsInRole("admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Order" asp-action="Add">Add Purchase Order</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="UserList">List of Users</a>
-            </li>
+         
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for purchase Orders views*@
 
+                   Purchase Order
+                </a>
+                <div class="dropdown-menu">
+                    <a style="color:black" class="nav-link" asp-controller="Order" asp-action="Portal">View Purchase Orders</a>
+                    <a style="color:black" class="nav-link" asp-controller="Order" asp-action="Add">Add Purchase Order</a>
+
+                </div>
+            </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for user views*@
+
+                    Users
+                </a>
+                <div class="dropdown-menu">
+                    <a style="color:black" class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                    <a style="color:black" class="nav-link" asp-controller="Account" asp-action="Userlist">View Users</a>
+
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown"> @*Dropdown for Delivery Order views*@
 
                     Delivery Order
                 </a>
@@ -34,29 +42,30 @@
             </li>
         }
 
-        @if (User.IsInRole("Supplier"))
-        {<li class="nav-item">
+        @if (User.IsInRole("Supplier")) //Supplier View
+        {
+            <li class="nav-item">
                 <a class="nav-link" asp-controller="Order" asp-action="Portal">Orders</a>
             </li>
         }
 
-            <!--DashBoard-->
-            @if (User.IsInRole("manager") || (User.IsInRole("admin")))
-            {
-                <li class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">
-                        DashBoard
-                    </a>
-                </li>
-            }
-            @if (User.IsInRole("Warehouse"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
-                </li>
-            }
-        </ul>
+        <!--DashBoard-->
+        @if (User.IsInRole("Manager") || (User.IsInRole("Admin")) || (User.IsInRole("Purchaser")))
+        {
+            <li class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    DashBoard
+                </a>
+            </li>
+        }
+        @if (User.IsInRole("Warehouse") || (User.IsInRole("Manager")))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Delivery" asp-action="table">Delivery Order Table</a>
+            </li>
+        }
+    </ul>
 
 
     <ul class="nav navbar-nav ml-auto">

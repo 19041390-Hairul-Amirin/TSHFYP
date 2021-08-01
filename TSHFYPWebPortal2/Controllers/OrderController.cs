@@ -63,12 +63,12 @@ namespace TSHFYPWebPortal2.Controllers
                 DataTable dt = DBUtl.GetTable($"SELECT * FROM PurchaseOrder1 WHERE SupplierName='{username}'");
                 return View("Supplier", dt.Rows); ;
             }
-            else if (User.IsInRole("admin")) //view: Admin.cshtml
+            else if (User.IsInRole("Admin")) //view: Admin.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Admin", dt.Rows); ;
             }
-            else if (User.IsInRole("purchaser")) //view: Purchaser.cshtml
+            else if (User.IsInRole("Purchaser")) //view: Purchaser.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Purchaser", dt.Rows); ;
@@ -78,12 +78,12 @@ namespace TSHFYPWebPortal2.Controllers
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Warehouse", dt.Rows); ;
             }
-            else if (User.IsInRole("account")) //view: Account.cshtml
+            else if (User.IsInRole("Account")) //view: Account.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Account", dt.Rows); ;
             }
-            else if (User.IsInRole("manager")) //view: SCM.html
+            else if (User.IsInRole("Manager")) //view: SCM.html
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("SCM", dt.Rows); ;
