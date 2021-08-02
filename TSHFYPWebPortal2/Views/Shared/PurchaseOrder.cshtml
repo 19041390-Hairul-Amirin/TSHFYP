@@ -44,7 +44,7 @@
                 </div>
             </li>
         }
-        @if (User.IsInRole("Purchaser") || (User.IsInRole("Warehouse")) || (User.IsInRole("Manager")))
+        @if (User.IsInRole("Purchaser") || (User.IsInRole("Warehouse")) || (User.IsInRole("Requester")) || (User.IsInRole("Manager")))
         {
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Delivery" asp-action="table">View Delivery Orders </a>
