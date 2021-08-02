@@ -73,6 +73,11 @@ namespace TSHFYPWebPortal2.Controllers
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
                 return View("Purchaser", dt.Rows); ;
             }
+            else if (User.IsInRole("Requester")) //view: Requester.cshtml
+            {
+                DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
+                return View("Requester", dt.Rows); ;
+            }
             else if (User.IsInRole("Warehouse")) //view: Warehouse.cshtml
             {
                 DataTable dt = DBUtl.GetTable("SELECT * FROM PurchaseOrder1");
