@@ -46,18 +46,12 @@ namespace TSHFYPWebPortal2.Controllers
 
                     if (fileExtension.Equals(".pdf")) //to allow only pdf files to be uploaded
                     {
-
-
-
-
                         var objfiles = new Delivery()
                         {
                             DocumentId = 0,
                             Name = User.Identity.Name + " " + newFileName,
                             FileType = fileExtension,
                             CreatedOn = DateTime.Now
-
-
                         };
 
                         using (var target = new MemoryStream())
@@ -70,9 +64,6 @@ namespace TSHFYPWebPortal2.Controllers
                         _context.SaveChanges();
                         TempData["Message"] = "Delivery Order Uploaded";
                         TempData["MsgType"] = "success";
-
-
-
                     }
                     else
                     {
@@ -82,12 +73,8 @@ namespace TSHFYPWebPortal2.Controllers
                     }
 
                 }
-
-
-
             }
             
-
             return RedirectToAction("Portal", "Order");
         }
 
@@ -106,12 +93,6 @@ namespace TSHFYPWebPortal2.Controllers
         {
 
             DataTable dt = DBUtl.GetTable("SELECT * FROM DeliveryOrder");
-
-
-           
-
-
-
             return View("Table", dt.Rows);
 
         }

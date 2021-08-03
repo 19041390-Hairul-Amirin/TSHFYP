@@ -20,7 +20,6 @@
 
 
 @model DataRowCollection
-@*SCM/MANAGER VIEWS*@
 
 
 <h2 style="text-align:center">@User.Identity.Name Portal </h2>
@@ -66,7 +65,6 @@
         <tbody>
 
 
-
             @foreach (DataRow row in Model)
             {
                 <tr>
@@ -90,10 +88,6 @@
                     <td>@row["TSHCMPONum"]</td>
 
 
-
-
-
-
                     @*To check if order is accepted*@
                     @if (row["Status"].Equals("Accepted"))
                     {
@@ -102,17 +96,10 @@
                     else
                     {
                         <td>
-
                             <a> Not Accepted</a>
-
-
                         </td>
-
                     }
-
                     <td>
-
-
                         <a type="submit" value="Update" asp-controller="Order"
                            asp-action="Update"
                            asp-route-id="@row["PId"]">Edit</a>
@@ -122,7 +109,6 @@
                            asp-route-id="@row["Pid"]"
                            onclick="return confirm('Delete Order <@row["Descr"]>')">
                             Delete
-
                         </a>
 
                     </td>

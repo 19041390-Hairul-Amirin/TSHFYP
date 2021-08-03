@@ -7,20 +7,11 @@ namespace TSHFYPWebPortal2.Models
 {
    public class Order
    {
-        public int PId { get; set; }
-       
-
-
-
-       
+        public int PId { get; set; }  
         [DataType(DataType.Date)]
         public DateTime OrderDate { get; set; }
-
-
         [DataType(DataType.Date)]
         public DateTime DueDate { get; set; }
-
-
         [DataType(DataType.Date)]
         public DateTime RevisedDate { get; set; }
         public string PONum { get; set; }
@@ -52,13 +43,6 @@ namespace TSHFYPWebPortal2.Models
 
     }
 
-    public class UploadDO
-    {
-        [Required(ErrorMessage = "Please Insert a File")]
-        public IFormFile File { get; set; }
-       
-
-        public string Filename { get; set; }
-    }
+   
 
     }
