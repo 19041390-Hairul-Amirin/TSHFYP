@@ -1,0 +1,75 @@
+CREATE TABLE TSHUsers (
+  UserId        VARCHAR(10)   PRIMARY KEY,
+  UserPw        VARBINARY(50) NOT NULL,
+  FullName      VARCHAR(50)   NOT NULL,
+  Email         VARCHAR(50)   NOT NULL,
+  UserRole      VARCHAR(10)   NOT NULL,
+  LastLogin     DATETIME      NULL
+);
+
+INSERT INTO TSHUsers (UserId, UserPw, FullName, Email, UserRole) VALUES 
+('purchaser', HASHBYTES('SHA1', 'password'), 'Purchaser', 'purchaser@tsh.com',  'Purchaser'),
+('GTI', HASHBYTES('SHA1', 'password'), 'GTI', 'gti@mail.com',  'Supplier'),
+('IGS', HASHBYTES('SHA1', 'password'), 'IGS', 'IGS@mail.com',  'Supplier'),
+('WEP', HASHBYTES('SHA1', 'password'), 'WEP', 'WEP@mail.com',  'Supplier'),
+('IFME', HASHBYTES('SHA1', 'password'), 'IFME', 'IFME@mail.com',  'Supplier'),
+('KHS', HASHBYTES('SHA1', 'password'), 'KHS', 'KHS@mail.com',  'Supplier'),
+('SMSC', HASHBYTES('SHA1', 'password'), 'SMSC', 'SMSC@mail.com',  'Supplier'),
+('KSPAI', HASHBYTES('SHA1', 'password'), 'KSPAI', 'KSPAI@mail.com',  'Supplier'),
+('Warehouse', HASHBYTES('SHA1', 'password'), 'Warehouse', 'Warehouse@mail.com',  'Warehouse'),
+('SCM', HASHBYTES('SHA1', 'password7'), 'SCM', 'SCM@mail.com',  'Manager'),
+('admin', HASHBYTES('SHA1', 'admin'), 'Admin', 'admin@mail.com',  'Admin'),
+('account', HASHBYTES('SHA1', 'account'), 'Account', 'account@mail.com', 'Account'),
+('Requester', HASHBYTES('SHA1', 'password'), 'Requester', 'Requester@tsh.com',  'Requester');
+
+
+CREATE TABLE [dbo].[DeliveryOrder] (
+    [DocumentId] INT             IDENTITY (1, 1) NOT NULL,
+    [Name]       VARCHAR (100)   NULL,
+    [FileType]   VARCHAR (100)   NULL,
+    [DataFiles]  VARBINARY (MAX) NULL,
+    [CreatedOn]  DATETIME        NULL,
+    CONSTRAINT [PK_Files] PRIMARY KEY CLUSTERED ([DocumentId] ASC)
+);
+
+
+CREATE TABLE PurchaseOrder1
+(
+   PId   INT IDENTITY PRIMARY KEY,
+   OrderDate DATETIME NOT NULL,
+   DueDate DATETIME NOT NULL,
+   RevisedDate DATETIME NOT NULL,
+   PONum VARCHAR(20) NOT NULL,
+   PRNum VARCHAR(20) NOT NULL,
+   SupplierID VARCHAR(20) NOT NULL,
+   SupplierName VARCHAR(20) NOT NULL,
+   Payment VARCHAR(20) NOT NULL,
+   PartNum VARCHAR(50) NOT NULL,
+   Descr VARCHAR(50) NOT NULL,
+   JobNum VARCHAR(30) NOT NULL,
+   Currency VARCHAR(3) NOT NULL,
+   QTY FLOAT NOT NULL,
+   UOM VARCHAR(5),
+   UnitPrice FLOAT,
+   AMT FLOAT,
+   TSHCMPONum VARCHAR(30),
+   Request VARCHAR(20),
+   Purchaser VARCHAR(30),
+   Status    VARCHAR (20)  NULL,
+   DeliveryId  INT       NULL
+
+FOREIGN KEY ([DeliveryId]) REFERENCES [dbo].[DeliveryOrder] ([DocumentId])
+);
+SET IDENTITY_INSERT PurchaseOrder1 ON;
+
+INSERT INTO PurchaseOrder1(PId, OrderDate, DueDate, RevisedDate, PONum, PRNum, SupplierID, SupplierName, Payment, PartNum, Descr, JobNum, Currency, QTY, UOM, UnitPrice, AMT, TSHCMPONum, Request, Purchaser) VALUES
+(1,'2021-04-26', '2021-04-28', '2021-04-28', 'AIS21040965', 'PRA21041022', '4000/G012', 'GTI', '30 Days', 'WB764-0134-000-00-TMT', 'WB764-0134-000-00-TMT FOR PAINTING', 'JOA21041020', 'SGD', 54.00, null, null, null, null, null, null),
+(2,'2021-04-26' , '2021-04-28', '2021-04-28', 'AIS21040965', 'PRA21041022', '4000/G012', 'GTI', '30 Days', 'WB764-0134-000-00-TMT', 'WB764-0134-000-00-TMT FOR PAINTING', 'JOA21041020', 'SGD', 56.00, null, null, null, null, null, null),
+(3,'2021-04-28', '2021-05-06', '2021-05-04', 'AIS21040967', 'PRA21041024',  '4000/K021', 'KSPAI', 'COD','1200232', 'CABLE CONDUIT (PAFS28)', 'JOA21041022','SGD',  175.00, null, null, null, null, null, null),
+(4,'2021-04-28','2021-05-03','2021-05-04','AIS21040968','PRA21041025','4000/I003','IFME','30 Days','EVC003','CABLE 4X0.34MM(IFM)','JOA21041023','SGD',  10.00, null, null, null, null, null, null),
+(5, '2021-04-28', '2021-05-03', '2021-05-04', 'AIS21040969', 'PRA21041026', '4000/T001', 'TEI', '30 Days', '18515-6024-000',' CABLE TIE 8-1/8INL.14INW 2IN DIA BUNDLE TM2S6-C','JOA21041024','SGD',100.00, null, null, null, null, null, null),
+(6, '2021-04-28', '2021-05-03', '2021-05-04', 'AIS21040969', 'PRA21041026', '4000/T001', 'TEI', '30 Days', '18515-6024-000', 'CABLE TIE 8-1/8INL.14INW 2IN DIA BUNDLE TM2S6-C','JOA21041024','SGD',100.00, null, null, null, null, null, null),
+(7,'2021-04-28','2021-05-03','2021-05-04','AIS21040970','PRA21041027','4000/P023','PPP','30 Days', 'TURCITE RED-DIA1.5INX4FT','TURCITE TX (RED)','JOA21041025','SGD',4.00, null, null, null, null, null, null),
+(8,'2021-04-28','2021-05-09','2021-05-10','AIS21040971','PRA21041028','4000/S012','SUZS','30 Days','EMS-P4,PACKING', 'EMS-P4','JOA21041026','SGD',120.00, null, null, null, null, null, null),
+(9,'2021-04-28','2021-05-09','2021-05-10','AIS21040972','PRA21041029','4000/K001','KHS','COD','AT34/M32/C90/BLY','ADAPTALEX 90-DEG ELBOW','JOA21041027','SGD', 40.00, null, null, null, null, null, null),
+(10,'2021-04-28','2021-05-09','2021-05-10','AIS21040973','PRA21041030','4000/K001','KHS','COD','AT34/M32/C90/BLY','ADAPTALEX 90-DEG ELBOW','JOA21041028','SGD',50.00, null, null, null, null, null, null)
